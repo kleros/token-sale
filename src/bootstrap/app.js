@@ -49,7 +49,7 @@ const StyledMenu = styled(Menu)`
 `
 const StyledLayoutContent = styled(Layout.Content)`
   background-color: transparent;
-  padding: 109px 7.575vw;
+  padding: 0px 7.575vw 100px 7.575vw;
 `
 export default () => (
   <>

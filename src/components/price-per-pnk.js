@@ -13,17 +13,17 @@ export default () => {
   let numberOfSubsales
   let currentSubsaleNumber
   let valuationAndCutOff
-  if (drizzleState.loaded) {
-    tokensForSale = useCacheCall('ContinuousICO', 'tokensForSale')
-    numberOfSubsales = useCacheCall('ContinuousICO', 'numberOfSubsales')
-    currentSubsaleNumber = useCacheCall(
-      'ContinuousICO',
-      'getOngoingSubsaleNumber'
-    )
-    valuationAndCutOff =
-      currentSubsaleNumber &&
-      useCacheCall('ContinuousICO', 'valuationAndCutOff', currentSubsaleNumber)
-  }
+  // if (drizzleState.loaded) {
+  //   tokensForSale = useCacheCall('ContinuousICO', 'tokensForSale')
+  //   numberOfSubsales = useCacheCall('ContinuousICO', 'numberOfSubsales')
+  //   currentSubsaleNumber = useCacheCall(
+  //     'ContinuousICO',
+  //     'getOngoingSubsaleNumber'
+  //   )
+  //   valuationAndCutOff =
+  //     currentSubsaleNumber &&
+  //     useCacheCall('ContinuousICO', 'valuationAndCutOff', currentSubsaleNumber)
+  // }
 
   const amountForSaleToday =
     numberOfSubsales &&

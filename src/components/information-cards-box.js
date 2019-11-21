@@ -45,16 +45,26 @@ const InformationCardsBox = ({
   textMain,
   subtextMain,
   textSecondary,
-  subtextSecondary
+  subtextSecondary,
+  noMiddleLine
 }) => {
   return (
     <div style={{"marginTop": "36px"}}>
       <StyledRow>
         <Col span={12}>
-          <StyledCardMiddleLine>
-            <Heading>{textMain}</Heading>
-            <Subtext>{subtextMain}</Subtext>
-          </StyledCardMiddleLine>
+          {
+            noMiddleLine ? (
+              <StyledCard>
+                <Heading>{textMain}</Heading>
+                <Subtext>{subtextMain}</Subtext>
+              </StyledCard>
+            ) : (
+              <StyledCardMiddleLine>
+                <Heading>{textMain}</Heading>
+                <Subtext>{subtextMain}</Subtext>
+              </StyledCardMiddleLine>
+            )
+          }
         </Col>
         <Col span={12}>
           <StyledCard>

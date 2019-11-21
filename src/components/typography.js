@@ -23,6 +23,8 @@ export const StyledHeading = styled.h1`
   font-weight: normal;
   line-height: normal;
   color: #ffffff;
+  position: absolute;
+  top: 80px;
 `
 
 export const StyledSubheading = styled.h2`

@@ -15,11 +15,11 @@ export default ({}) => {
   let subsaleNumber
   let startTime
   let secondsPerSubsale
-  if (drizzleState.loaded) {
-   subsaleNumber = useCacheCall('ContinuousICO', 'getOngoingSubsaleNumber')
-   startTime = useCacheCall('ContinuousICO', 'startTime')
-   secondsPerSubsale = useCacheCall('ContinuousICO', 'secondsPerSubsale')
-  }
+  // if (drizzleState.loaded) {
+  //  subsaleNumber = useCacheCall('ContinuousICO', 'getOngoingSubsaleNumber')
+  //  startTime = useCacheCall('ContinuousICO', 'startTime')
+  //  secondsPerSubsale = useCacheCall('ContinuousICO', 'secondsPerSubsale')
+  // }
 
   let nextSubsaleStartInSeconds = null
   if (startTime && secondsPerSubsale && subsaleNumber)

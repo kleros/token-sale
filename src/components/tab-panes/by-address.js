@@ -60,7 +60,7 @@ const ByAddressPane = ({
       />
       <AddressResponsive>{contributionAddress}</AddressResponsive>
       <StyledButton onClick={CopyToClipboard}>{state.buttonText}</StyledButton>
-      <StyledText style={{'padding': '0px 54px', 'marginTop': '55px'}}><sup>*</sup>This guarantees a purchase of PNK</StyledText>
+      <StyledText style={{'padding': '0px 54px', 'marginTop': '55px'}}><sup>*</sup>Fills the cheapest orders first</StyledText>
     </StyledPane>
   )
 }

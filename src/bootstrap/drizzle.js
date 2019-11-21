@@ -1,12 +1,12 @@
 import { Drizzle, generateStore } from 'drizzle'
-import ContinuousICO from '../assets/contracts/continuous-ico.json'
+import ERC20Seller from '../assets/contracts/token-sale.json'
 
 const options = {
   contracts: [
     {
-      ...ContinuousICO,
+      ...ERC20Seller,
       networks: {
-        42: { address: process.env.REACT_APP_KLEROS_TEST_ICO_ADDRESS },
+        42: { address: process.env.REACT_APP_KLEROS_TEST_SALE_ADDRESS },
         1: { address: process.env.REACT_APP_KLEROS_ICO_ADDRESS }
       }
     }

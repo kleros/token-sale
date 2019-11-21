@@ -17,12 +17,14 @@ import ByWeb3Browser from '../components/tab-panes/by-web3-browser'
 import ByInputData from '../components/tab-panes/by-input-data'
 import SecondsInSubsale from '../components/seconds-in-subsale'
 import PricePerPNK from '../components/price-per-pnk'
+import SellOrdersGraph from '../components/sell-orders-graph'
 import { useDrizzle, useDrizzleState } from '../temp/drizzle-react-hooks'
 import { ethToWei, truncateDecimalString, weiToEth } from '../utils/numbers'
 import { ReactComponent as RightArrow } from '../assets/images/arrow-right-solid.svg'
 import { ReactComponent as Clock } from '../assets/images/clock-regular.svg'
 import { ReactComponent as Accepted } from '../assets/images/check-solid.svg'
 import { ReactComponent as Rejected } from '../assets/images/times-solid.svg'
+import HeaderImg from '../assets/images/header.png'
 
 const StyledCardContainer = styled.div`
   margin-top: 25px;
@@ -61,7 +63,7 @@ const StyledCardContainer = styled.div`
           height: 34px;
           margin-right: 0px;
           text-align: center;
-          width: 33.3%;
+          width: 50%;
         }
 
         .ant-tabs-tab-active {
@@ -124,6 +126,10 @@ export default () => {
     account: drizzleState.accounts[0]
   }))
 
+  if (!drizzleState.loaded) return (
+    <div>loading...</div>
+  )
+
   const [account, setAccount] = useState(drizzleState.account)
 
   // Set account when drizzle state loads
@@ -138,28 +144,28 @@ export default () => {
   let startTime
   let secondsPerSubsale
   let bidIDs = []
-  if (drizzleState.loaded) {
-    tokensForSale = useCacheCall('ContinuousICO', 'tokensForSale')
-    numberOfSubsales = useCacheCall('ContinuousICO', 'numberOfSubsales')
-    currentSubsaleNumber = useCacheCall(
-      'ContinuousICO',
-      'getOngoingSubsaleNumber'
-    )
-    valuationAndCutOff =
-      currentSubsaleNumber &&
-      useCacheCall('ContinuousICO', 'valuationAndCutOff', currentSubsaleNumber)
-    startTime = useCacheCall('ContinuousICO', 'startTime')
-    secondsPerSubsale = useCacheCall('ContinuousICO', 'secondsPerSubsale')
-    bidIDs =
-      (account &&
-        useCacheCall(
-          'ContinuousICO',
-          'getBidIDsForContributor',
-          account,
-          'false'
-        )) ||
-      []
-  }
+  // if (drizzleState.loaded) {
+  //   tokensForSale = useCacheCall('ContinuousICO', 'tokensForSale')
+  //   numberOfSubsales = useCacheCall('ContinuousICO', 'numberOfSubsales')
+  //   currentSubsaleNumber = useCacheCall(
+  //     'ContinuousICO',
+  //     'getOngoingSubsaleNumber'
+  //   )
+  //   valuationAndCutOff =
+  //     currentSubsaleNumber &&
+  //     useCacheCall('ContinuousICO', 'valuationAndCutOff', currentSubsaleNumber)
+  //   startTime = useCacheCall('ContinuousICO', 'startTime')
+  //   secondsPerSubsale = useCacheCall('ContinuousICO', 'secondsPerSubsale')
+  //   bidIDs =
+  //     (account &&
+  //       useCacheCall(
+  //         'ContinuousICO',
+  //         'getBidIDsForContributor',
+  //         account,
+  //         'false'
+  //       )) ||
+  //     []
+  // }
 
   const amountForSaleToday =
     numberOfSubsales &&
@@ -167,51 +173,52 @@ export default () => {
     toBN(tokensForSale).div(toBN(numberOfSubsales))
 
   // Fetch all data for users bids
-  const bids = useCacheCall(['ContinuousICO'], call =>
-    bidIDs.length
-      ? bidIDs.reduce(
-          (acc, bidID) => {
-            if (!acc.IDs[bidID]) {
-              acc.IDs[bidID] = true
-              const bid = call('ContinuousICO', 'bids', bidID)
-              if (bid) {
-                acc.bids.push({ ...bid, bidID })
-                if (!acc.subsaleIDs[bid.subsaleNumber]) {
-                  acc.subsaleIDs[bid.subsaleNumber] = true
-                  const valAndCutOffForSubsale = call(
-                    'ContinuousICO',
-                    'valuationAndCutOff',
-                    bid.subsaleNumber
-                  )
-
-                  if (valAndCutOffForSubsale)
-                    acc.valAndCutOffForSubsale[
-                      bid.subsaleNumber.toString()
-                    ] = valAndCutOffForSubsale
-                  else acc.loadingValAndCutOffs = true
-                }
-              } else acc.loading = true
-            }
-            return acc
-          },
-          {
-            loading: false,
-            loadingValAndCutOffs: false,
-            bids: [],
-            valAndCutOffForSubsale: {},
-            IDs: {},
-            subsaleIDs: {}
-          }
-        )
-      : {
-          loading: true,
-          loadingValAndCutOffs: true,
-          bids: [],
-          valAndCutOffForSubsale: {},
-          IDs: {},
-          subsaleIDs: {}
-        }
-  )
+  const bids = {}
+  // const bids = useCacheCall(['ContinuousICO'], call =>
+  //   bidIDs.length
+  //     ? bidIDs.reduce(
+  //         (acc, bidID) => {
+  //           if (!acc.IDs[bidID]) {
+  //             acc.IDs[bidID] = true
+  //             const bid = call('ContinuousICO', 'bids', bidID)
+  //             if (bid) {
+  //               acc.bids.push({ ...bid, bidID })
+  //               if (!acc.subsaleIDs[bid.subsaleNumber]) {
+  //                 acc.subsaleIDs[bid.subsaleNumber] = true
+  //                 const valAndCutOffForSubsale = call(
+  //                   'ContinuousICO',
+  //                   'valuationAndCutOff',
+  //                   bid.subsaleNumber
+  //                 )
+  //
+  //                 if (valAndCutOffForSubsale)
+  //                   acc.valAndCutOffForSubsale[
+  //                     bid.subsaleNumber.toString()
+  //                   ] = valAndCutOffForSubsale
+  //                 else acc.loadingValAndCutOffs = true
+  //               }
+  //             } else acc.loading = true
+  //           }
+  //           return acc
+  //         },
+  //         {
+  //           loading: false,
+  //           loadingValAndCutOffs: false,
+  //           bids: [],
+  //           valAndCutOffForSubsale: {},
+  //           IDs: {},
+  //           subsaleIDs: {}
+  //         }
+  //       )
+  //     : {
+  //         loading: true,
+  //         loadingValAndCutOffs: true,
+  //         bids: [],
+  //         valAndCutOffForSubsale: {},
+  //         IDs: {},
+  //         subsaleIDs: {}
+  //       }
+  // )
 
   // Parse bids to the table columns
   const columnData = []
@@ -276,6 +283,10 @@ export default () => {
 
   return (
     <div>
+      <Row>
+        <img src={HeaderImg} />
+        <StyledHeading>Kleros PNK Sale</StyledHeading>
+      </Row>
       <Row style={{ marginBottom: '76px' }}>
         <Col lg={9}>
           <StyledSubheading>How to Contribute</StyledSubheading>
@@ -284,8 +295,8 @@ export default () => {
               <Tabs.TabPane key={1} tab={<StyledTabText>Basic</StyledTabText>}>
                 <ByAddressPane
                   contributionAddress={
-                    drizzle.contracts['ContinuousICO']
-                      ? drizzle.contracts['ContinuousICO'].address
+                    drizzle.contracts['ERC20Seller']
+                      ? drizzle.contracts['ERC20Seller'].address
                       : 'loading...'
                   }
                 />
@@ -293,70 +304,40 @@ export default () => {
               <Tabs.TabPane key={2} tab={<StyledTabText>Web3</StyledTabText>}>
                 <ByWeb3Browser />
               </Tabs.TabPane>
-              <Tabs.TabPane
-                key={3}
-                tab={<StyledTabText>Advanced</StyledTabText>}
-              >
-                <ByInputData />
-              </Tabs.TabPane>
             </Tabs>
           </StyledCardContainer>
         </Col>
         <Col lg={13} offset={1}>
-          <StyledHeading>Kleros Continuous Sale</StyledHeading>
-          <StyledText style={{ marginBottom: '18px' }}>
-            12% of the Pinakion (PNK) supply will be sold over a 12-month period
-            in daily auctions.
+          <BreakLine style={{marginTop: '95px'}}/>
+          <StyledText style={{ marginBottom: '18px', marginTop: '18px' }}>
+            A total of 160 Million of Pinakion (PNK) will be sold over the course of the next (two) week(s).
           </StyledText>
-          <BreakLine />
-          <StyledSubheading style={{ marginTop: '34px' }}>
-            Daily Auction
-          </StyledSubheading>
           <InformationCardsBox
             subtextMain="Amount for Sale"
-            subtextSecondary="ETH Contributed Today"
+            noMiddleLine={true}
             textMain={
-              amountForSaleToday
-                ? `${truncateDecimalString(
-                    weiToEth(amountForSaleToday.toString()),
-                    2
-                  )} PNK`
-                : 'loading...'
+              '160,000,000 PNK'
             }
             textSecondary={
-              valuationAndCutOff
-                ? `${truncateDecimalString(
-                    weiToEth(valuationAndCutOff.valuation.toString()),
-                    5
-                  )} ETH`
-                : 'loading...'
+              ''
             }
           />
           <InformationCardsBox
-            subtextMain="PNK price if no other bids are made"
-            subtextSecondary="Remaining Time"
-            textMain={<PricePerPNK />}
-            textSecondary={<SecondsInSubsale />}
+            subtextMain="TOTAL PNK sold"
+            subtextSecondary="Remaining amount for sale"
+            textMain={'120,000,000 PNK'}
+            textSecondary={'40,000,000 PNK'}
           />
         </Col>
       </Row>
       <BreakLine />
       <Row style={{ margin: '45px 0px' }}>
         <Col lg={9}>
-          <StyledSubheading>My Bids</StyledSubheading>
-        </Col>
-        <Col lg={15}>
-          <StyledSubtext>Add your ETH address to see your bids</StyledSubtext>
-          <StyledSearch
-            enterButton={<RightArrow style={{ height: '17px' }} />}
-            onSearch={e => {
-              setAccount(e || drizzleState.account)
-            }}
-            placeholder="0x..."
-            style={{ height: '40px' }}
-          />
+          <StyledSubheading>Sell Orders</StyledSubheading>
         </Col>
       </Row>
+      <SellOrdersGraph/>
+      
       <Row>
         <Col lg={24}>
           <Table columnData={columnData.reverse()} />
