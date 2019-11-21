@@ -144,28 +144,6 @@ export default () => {
   let startTime
   let secondsPerSubsale
   let bidIDs = []
-  // if (drizzleState.loaded) {
-  //   tokensForSale = useCacheCall('ContinuousICO', 'tokensForSale')
-  //   numberOfSubsales = useCacheCall('ContinuousICO', 'numberOfSubsales')
-  //   currentSubsaleNumber = useCacheCall(
-  //     'ContinuousICO',
-  //     'getOngoingSubsaleNumber'
-  //   )
-  //   valuationAndCutOff =
-  //     currentSubsaleNumber &&
-  //     useCacheCall('ContinuousICO', 'valuationAndCutOff', currentSubsaleNumber)
-  //   startTime = useCacheCall('ContinuousICO', 'startTime')
-  //   secondsPerSubsale = useCacheCall('ContinuousICO', 'secondsPerSubsale')
-  //   bidIDs =
-  //     (account &&
-  //       useCacheCall(
-  //         'ContinuousICO',
-  //         'getBidIDsForContributor',
-  //         account,
-  //         'false'
-  //       )) ||
-  //     []
-  // }
 
   const amountForSaleToday =
     numberOfSubsales &&
@@ -174,51 +152,24 @@ export default () => {
 
   // Fetch all data for users bids
   const bids = {}
-  // const bids = useCacheCall(['ContinuousICO'], call =>
-  //   bidIDs.length
-  //     ? bidIDs.reduce(
-  //         (acc, bidID) => {
-  //           if (!acc.IDs[bidID]) {
-  //             acc.IDs[bidID] = true
-  //             const bid = call('ContinuousICO', 'bids', bidID)
-  //             if (bid) {
-  //               acc.bids.push({ ...bid, bidID })
-  //               if (!acc.subsaleIDs[bid.subsaleNumber]) {
-  //                 acc.subsaleIDs[bid.subsaleNumber] = true
-  //                 const valAndCutOffForSubsale = call(
-  //                   'ContinuousICO',
-  //                   'valuationAndCutOff',
-  //                   bid.subsaleNumber
-  //                 )
-  //
-  //                 if (valAndCutOffForSubsale)
-  //                   acc.valAndCutOffForSubsale[
-  //                     bid.subsaleNumber.toString()
-  //                   ] = valAndCutOffForSubsale
-  //                 else acc.loadingValAndCutOffs = true
-  //               }
-  //             } else acc.loading = true
-  //           }
-  //           return acc
-  //         },
-  //         {
-  //           loading: false,
-  //           loadingValAndCutOffs: false,
-  //           bids: [],
-  //           valAndCutOffForSubsale: {},
-  //           IDs: {},
-  //           subsaleIDs: {}
-  //         }
-  //       )
-  //     : {
-  //         loading: true,
-  //         loadingValAndCutOffs: true,
-  //         bids: [],
-  //         valAndCutOffForSubsale: {},
-  //         IDs: {},
-  //         subsaleIDs: {}
-  //       }
-  // )
+  const orders = [
+    {
+      'amount': 1000,
+      'price': 460000000000000
+    },
+    {
+      'amount': 1535,
+      'price': 470000000000000
+    },
+    {
+      'amount': 6136,
+      'price': 475600000000000
+    },
+    {
+      'amount': 1336,
+      'price': 481200000000000
+    },
+  ]
 
   // Parse bids to the table columns
   const columnData = []
@@ -336,11 +287,11 @@ export default () => {
           <StyledSubheading>Sell Orders</StyledSubheading>
         </Col>
       </Row>
-      <SellOrdersGraph/>
-      
+      <SellOrdersGraph orders={orders} />
+
       <Row>
         <Col lg={24}>
-          <Table columnData={columnData.reverse()} />
+          <Table columnData={orders} />
         </Col>
       </Row>
     </div>

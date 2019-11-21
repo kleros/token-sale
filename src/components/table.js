@@ -70,36 +70,33 @@ const StyledTable = styled(Table)`
 `
 
 const columns = [{
-  title: 'Amount (PNK)',
-  dataIndex: 'amount',
-  key: 'amount'
+  title: 'Sell Order',
+  dataIndex: 'index',
+  key: 'index'
 }, {
-  title: 'Contribution (ETH)',
+  title: 'Price (ETH)',
   dataIndex: 'price',
   key: 'price'
 }, {
-  title: 'Date',
-  dataIndex: 'date',
-  key: 'date',
-  render: text => text ? getDateFromTimestamp(text) : ''
-}, {
-  title: 'Status',
-  dataIndex: 'status',
-  key: 'status'
+  title: 'Amount (PNK)',
+  dataIndex: 'amount',
+  key: 'amount',
 }]
 
-const getDateFromTimestamp = (ts) => {
-  const date = new Date(ts * 1000)
-  const today = (new Date()).getDate()
-
-  if (date.getDate() === today) return 'Today'
-  else if (date.getDate() === today - 1) return 'Yesterday'
-
-  return `${date.getDate()} ${MonthAbreviations[date.getMonth()]} ${date.getFullYear()}`
+const toLetters = (num) => {
+    let mod = (num + 1) % 26
+    let pow = (num + 1) / 26 | 0
+    const out = mod ? String.fromCharCode(64 + mod) : (--pow, 'Z')
+    return pow ? toLetters(pow) + out : out
 }
 
 export default ({
   columnData
 }) => {
-  return (<StyledTable columns={columns} dataSource={columnData} scroll={{ x: 'fit-content' }} />)
+  const _data = columnData.map((d, i) => ({
+    ...d,
+    index: toLetters(i)
+  }))
+
+  return (<StyledTable columns={columns} dataSource={_data} scroll={{ x: 'fit-content' }} />)
 }

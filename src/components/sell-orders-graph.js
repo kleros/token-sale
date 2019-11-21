@@ -39,26 +39,7 @@ const toLetters = (num) => {
     return pow ? toLetters(pow) + out : out
 }
 
-const SellOrdersGraph = ({}) => {
-  const orders = [
-    {
-      'amount': 1000,
-      'price': 460000000000000
-    },
-    {
-      'amount': 1535,
-      'price': 470000000000000
-    },
-    {
-      'amount': 6136,
-      'price': 475600000000000
-    },
-    {
-      'amount': 1336,
-      'price': 481200000000000
-    },
-  ]
-
+const SellOrdersGraph = ({ orders }) => {
   const lowPrice = orders[0].price
   const highPrice = orders[orders.length - 1].price
 
