@@ -283,8 +283,8 @@ export default () => {
           <InformationCardsBox
             subtextMain="TOTAL PNK sold"
             subtextSecondary="Remaining amount for sale"
-            textMain={`${Number(fromWei(purchaseAmount)).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`}
-            textSecondary={`${Number(fromWei(toBN(toWei(SALE_TOTAL)).sub(toBN(purchaseAmount))).toString()).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`}
+            textMain={`${Number(fromWei(purchaseAmount.toString())).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`}
+            textSecondary={`${Number(fromWei(toBN(toWei(SALE_TOTAL.toString())).sub(toBN(purchaseAmount)).toString()).toString()).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`}
           />
         </Col>
       </Row>

@@ -142,7 +142,7 @@ const toLetters = (num) => {
 const ByWeb3Browser = ({ orders, divisor, disabled }) => {
   const options = orders.map((o, i) => (
     <StyledOption value={i}>
-      {toLetters(i)} - Price at {fromWei(o.price)} ETH
+      {toLetters(i)} - Price at {fromWei(o.price.toString())} ETH
     </StyledOption>
   ))
 
@@ -228,12 +228,12 @@ const ByWeb3Browser = ({ orders, divisor, disabled }) => {
           <StyledInput
             placeholder={`0 ETH`}
             onChange={setETHAmount}
-            value={fromWei(ethToSend)}
+            value={fromWei(ethToSend.toString())}
           />
         </Row>
         <Row>
           <AmountLabel>Total</AmountLabel>
-          <AmountText>{fromWei(curPNK)} PNK</AmountText>
+          <AmountText>{fromWei(curPNK.toString())} PNK</AmountText>
         </Row>
         <StyledButton onClick={buyOrder} disabled={disabled}>Contribute</StyledButton>
         {
