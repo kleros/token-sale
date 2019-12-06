@@ -40,8 +40,12 @@ const toLetters = (num) => {
 }
 
 const SellOrdersGraph = ({ orders }) => {
-  const lowPrice = orders[0].price
-  const highPrice = orders[orders.length - 1].price
+  let lowPrice
+  let highPrice
+  if (orders.length !== 0) {
+    lowPrice = orders[0].price
+    highPrice = orders[orders.length - 1].price
+  }
 
   const orderCols = orders.map((o, i) => {
     return (

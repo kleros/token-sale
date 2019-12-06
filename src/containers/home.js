@@ -1,7 +1,7 @@
 import { Button, Col, Divider, Input, Radio, Row, Tabs } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
-import { toBN } from 'web3-utils'
+import { toBN, fromWei, toWei } from 'web3-utils'
 import {
   StyledHeading,
   StyledSubheading,
@@ -14,7 +14,6 @@ import InformationCardsBox from '../components/information-cards-box'
 import Table from '../components/table'
 import ByAddressPane from '../components/tab-panes/by-address'
 import ByWeb3Browser from '../components/tab-panes/by-web3-browser'
-import ByInputData from '../components/tab-panes/by-input-data'
 import SecondsInSubsale from '../components/seconds-in-subsale'
 import PricePerPNK from '../components/price-per-pnk'
 import SellOrdersGraph from '../components/sell-orders-graph'
@@ -119,8 +118,10 @@ const StyledPending = styled(Clock)`
   height: 20px;
 `
 
+const SALE_TOTAL = '16000000'
+
 export default () => {
-  const { useCacheCall, drizzle } = useDrizzle()
+  const { useCacheCall, useCacheEvents, drizzle } = useDrizzle()
   const drizzleState = useDrizzleState(drizzleState => ({
     loaded: drizzleState.drizzleStatus.initialized,
     account: drizzleState.accounts[0]
@@ -152,24 +153,30 @@ export default () => {
 
   // Fetch all data for users bids
   const bids = {}
-  const orders = [
-    {
-      'amount': 1000,
-      'price': 460000000000000
-    },
-    {
-      'amount': 1535,
-      'price': 470000000000000
-    },
-    {
-      'amount': 6136,
-      'price': 475600000000000
-    },
-    {
-      'amount': 1336,
-      'price': 481200000000000
-    },
-  ]
+  const divisor = useCacheCall('ERC20Seller', 'divisor')
+  const normalizedOrders = useCacheCall(['ERC20Seller'], call => {
+    const openOrderIDs = call('ERC20Seller', 'getOpenOrders')
+
+    if (openOrderIDs && divisor) {
+      return openOrderIDs.map(_id => {
+        const _order = call('ERC20Seller', 'orders', _id)
+        if (_order) {
+          const _orderCopy = { ..._order }
+          _orderCopy.price = toBN(_order.price).mul(toBN('1000000000000000000')).div(toBN(divisor)).toString()
+          return _orderCopy
+        }
+      })
+    }
+  })
+
+  const purchaseEvents = useCacheEvents('ERC20Seller', 'TokenPurchase', { fromBlock: 0 })
+
+  let purchaseAmount = toBN(0)
+  if (purchaseEvents) {
+    purchaseEvents.forEach(e => {
+      purchaseAmount = purchaseAmount.add(toBN(e.returnValues._amount))
+    })
+  }
 
   // Parse bids to the table columns
   const columnData = []
@@ -253,7 +260,7 @@ export default () => {
                 />
               </Tabs.TabPane>
               <Tabs.TabPane key={2} tab={<StyledTabText>Web3</StyledTabText>}>
-                <ByWeb3Browser />
+                <ByWeb3Browser orders={normalizedOrders} disabled={!account} divisor={divisor} />
               </Tabs.TabPane>
             </Tabs>
           </StyledCardContainer>
@@ -267,7 +274,7 @@ export default () => {
             subtextMain="Amount for Sale"
             noMiddleLine={true}
             textMain={
-              '160,000,000 PNK'
+              `${SALE_TOTAL.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`
             }
             textSecondary={
               ''
@@ -276,8 +283,8 @@ export default () => {
           <InformationCardsBox
             subtextMain="TOTAL PNK sold"
             subtextSecondary="Remaining amount for sale"
-            textMain={'120,000,000 PNK'}
-            textSecondary={'40,000,000 PNK'}
+            textMain={`${Number(fromWei(purchaseAmount)).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`}
+            textSecondary={`${Number(fromWei(toBN(toWei(SALE_TOTAL)).sub(toBN(purchaseAmount))).toString()).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`}
           />
         </Col>
       </Row>
@@ -287,11 +294,11 @@ export default () => {
           <StyledSubheading>Sell Orders</StyledSubheading>
         </Col>
       </Row>
-      <SellOrdersGraph orders={orders} />
+      <SellOrdersGraph orders={normalizedOrders && normalizedOrders[0] ? normalizedOrders : []} />
 
       <Row>
         <Col lg={24}>
-          <Table columnData={orders} />
+          <Table columnData={normalizedOrders && normalizedOrders[0] ? normalizedOrders : []} />
         </Col>
       </Row>
     </div>

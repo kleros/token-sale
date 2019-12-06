@@ -54,7 +54,7 @@ const StyledLayoutContent = styled(Layout.Content)`
 export default () => (
   <>
     <Helmet>
-      <title>Kleros Continuous ICO</title>
+      <title>Kleros Token Sale</title>
       <link
         href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i"
         rel="stylesheet"
@@ -75,9 +75,9 @@ export default () => (
                   </a>
                 </StyledLeftCol>
                 <StyledColRight lg={10} offset={6}>
-                  <StyledText>Kleros Continuous Sale</StyledText>
+                  <StyledText>Kleros Token Sale</StyledText>
                   <StyledText>
-                    Start: March 1st 2019. End: March 1st 2020
+                    Start: January 1st 2020. End: February 1st 2020
                   </StyledText>
                 </StyledColRight>
               </Row>

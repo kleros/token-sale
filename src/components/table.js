@@ -1,6 +1,7 @@
 import { Table } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
+import { fromWei } from 'web3-utils'
 
 import { useDrizzle, useDrizzleState } from '../temp/drizzle-react-hooks'
 import MonthAbreviations from '../utils/month-abreviations'
@@ -76,11 +77,17 @@ const columns = [{
 }, {
   title: 'Price (ETH)',
   dataIndex: 'price',
-  key: 'price'
+  key: 'price',
+  render: (val) => (
+    fromWei(val.toString())
+  )
 }, {
   title: 'Amount (PNK)',
   dataIndex: 'amount',
   key: 'amount',
+  render: (val) => (
+    fromWei(val.toString())
+  )
 }]
 
 const toLetters = (num) => {

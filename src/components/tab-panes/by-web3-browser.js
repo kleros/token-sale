@@ -1,42 +1,25 @@
-import { Input, Row, Col, Checkbox, Button } from 'antd'
+import { InputNumber, Row, Col, Select, Button, Icon } from 'antd'
 import React, { useRef, useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
-import { toBN } from 'web3-utils'
+import { toBN, toWei, fromWei } from 'web3-utils'
 
 import { useDrizzle, useDrizzleState } from '../../temp/drizzle-react-hooks'
 import { StyledText, StyledValueText, StyledSubtext } from '../typography'
 import { ethToWei, pricePerPNKToMaxVal, INFINITY } from '../../utils/numbers'
 
+import './select-theme.css'
+
 const StyledPane = styled.div`
   text-align: center;
+  padding: 0px 40px 0px 40px;
 `
-const StyledInput = styled(Input)`
-  border-color: transparent;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.3);
-  font-size: 18px;
-`
-
 const InputLabel = styled.div`
   margin: auto;
   p {
     margin-bottom: 5px;
   }
   text-align: left;
-`
-
-const StyledCheckbox = styled(Checkbox)`
-  .ant-checkbox {
-    vertical-align: baseline;
-
-    &-inner {
-      background : transparent;
-
-      &:hover &:focus {
-        border-color: white;
-      }
-    }
-  }
+  margin-bottom: 9px;
 `
 
 const MaxPrice = styled.div`
@@ -51,6 +34,7 @@ const MaxPrice = styled.div`
 const StyledButton = styled(Button)`
   color: white;
   height: 40px;
+  margin-top: 70px;
   padding: 0px 33px;
   width: 100%;
 
@@ -60,127 +44,203 @@ const StyledButton = styled(Button)`
   &:hover {
     color: white;
   }
+  &:disabled {
+    color: rgba(255, 255, 255, 0.35);
+    border: none;
+    background: rgba(77, 0, 180, 0.58);
+  }
+  &[disabled]:hover {
+    color: rgba(255, 255, 255, 0.35);
+    border: none;
+    background: rgba(77, 0, 180, 0.58);
+  }
+`
+const StyledSelect = styled(Select)`
+  .ant-select-selection {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    color: white;
+    height: 40px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    padding: 5px 20px;
+
+    path {
+      fill: white;
+    }
+  }
+
+  .ant-select-dropdown-menu-item {
+    background: rgba(255, 255, 255, 0.3);
+    height: 100%;
+    border: none;
+    color: white;
+    height: 40px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    padding: 5px 20px;
+
+    path {
+      fill: white;
+    }
+  }
+
+  width: 100%;
+  margin-bottom: 18px;
+`
+const StyledOption = styled(Select.Option)`
+`
+const StyledInput = styled(InputNumber)`
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  color: white;
+  height: 40px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  padding: 5px 20px;
+
+  path {
+    fill: white;
+  }
+`
+const AmountLabel = styled.div`
+  color: #fff;
+  font-size: 14px;
+  margin-top: 20px;
+  text-align: left;
+`
+const AmountText = styled.div`
+  color: #fff;
+  font-size: 16px;
+  text-align: left;
+`
+const ErrorMessage = styled.div`
+  color: #FFFFFF;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 15px;
+  text-align: center;
+
+  path {
+    fill: #FF9900;
+  }
 `
 
-const ByWeb3Browser = () => {
-  const [ maxPricePNK, setMaxPricePNK ] = useState(null)
-  const [ amountToContribute, setAmountToContribute ] = useState(0)
+const toLetters = (num) => {
+    let mod = (num + 1) % 26
+    let pow = (num + 1) / 26 | 0
+    const out = mod ? String.fromCharCode(64 + mod) : (--pow, 'Z')
+    return pow ? toLetters(pow) + out : out
+}
 
-  const { useCacheCall, drizzle, useCacheSend } = useDrizzle()
-  const drizzleState = useDrizzleState(drizzleState => ({
-    web3Status: drizzleState.web3.status,
-    account: drizzleState.accounts[0]
-  }))
+const ByWeb3Browser = ({ orders, divisor, disabled }) => {
+  const options = orders.map((o, i) => (
+    <StyledOption value={i}>
+      {toLetters(i)} - Price at {fromWei(o.price)} ETH
+    </StyledOption>
+  ))
 
-  // Get all vars from contract.
-  const lastBid = useCacheCall('ContinuousICO', 'globalLastBidID')
-  const currentSubsaleNumber = useCacheCall('ContinuousICO', 'getOngoingSubsaleNumber')
-  const tokensForSale = useCacheCall('ContinuousICO', 'tokensForSale')
-  const numberOfSubsales = useCacheCall('ContinuousICO', 'numberOfSubsales')
+  const { useCacheSend, drizzle } = useDrizzle()
+  const { send, status } = useCacheSend('ERC20Seller', 'buy')
 
-  const amountForSaleToday = tokensForSale && numberOfSubsales && toBN(tokensForSale).div(toBN(numberOfSubsales))
-  const maxVal = amountForSaleToday && pricePerPNKToMaxVal(maxPricePNK || INFINITY, amountForSaleToday)
-  const searchStart = currentSubsaleNumber && maxVal && lastBid && useCacheCall('ContinuousICO', 'search', currentSubsaleNumber, maxVal, lastBid)
-  // Send bid
-  const { send, status } = useCacheSend('ContinuousICO', 'searchAndBidToOngoingSubsale')
+  const [ maxPriceIndex, setMaxPriceIndex ] = useState(0)
+  const [ ethToSend, setEthToSend ] = useState('0')
 
-  // Unlock metamask message
-  const unlockMetaMask =
-    (drizzleState.web3Status === 'failed' || !drizzleState.account)
-    ? 'Unlock MetaMask to submit a bid'
-    : null
-
-
-  const maxValViewRef = useRef(null)
-  const maxValInputRef = useRef(null)
-  const amountToContributeRef = useRef(null)
-
-  const submitEnabled = unlockMetaMask === null && amountToContribute > 0 && (maxPricePNK ? maxPricePNK > 0 : true)
-
-  function maxValChecked(e) {
-    if (e.target.checked) {
-      maxValViewRef.current.style.display = 'inline-block'
-      maxValueChange(maxValInputRef.current.state.value)
-    }
-    else {
-      maxValViewRef.current.style.display = 'none'
-      maxValueChange(null)
-    }
+  let maxWei = toBN(orders[0].amount).mul(toBN(orders[0].price)).div(toBN('1000000000000000000'))
+  for (let i = 1; i <= maxPriceIndex; i++) {
+    maxWei = maxWei.add(toBN(orders[i].amount).mul(toBN(orders[i].price)).div(toBN('1000000000000000000')))
   }
 
-  function submitTransaction() {
-    const amountWei = ethToWei(amountToContribute)
-
-    if (!maxPricePNK) {
-      // use fallback function if no max price
-      drizzle.web3.eth.sendTransaction({
-        from: drizzleState.account,
-        to: drizzle.contracts['ContinuousICO'].address,
-        value: amountWei
-      })
-    } else {
-      send(maxVal, searchStart, { value: amountWei })
+  const setETHAmount = (amount) => {
+    if (!amount) amount = 0
+    if (Number(amount) < 0) amount = 0
+    let _weiAmount
+    try {
+      _weiAmount = toWei(String(amount))
+    } catch (e) {
+      _weiAmount = toWei(String(0))
     }
+
+    if (toBN(_weiAmount).gt(maxWei)) _weiAmount = maxWei
+
+    setEthToSend(_weiAmount.toString())
   }
 
-  function maxValueChange (value) {
-    if (value) setMaxPricePNK(value.toString())
-    else setMaxPricePNK(null)
+  const maxPNK = (amount) => {
+    // ETH
+    let _ethAmount = toBN(amount)
+    // PNK
+    let pnkTotal = toBN(0)
+    // Index
+    let currentOrder = 0
+    while (_ethAmount.gt(toBN(0))) {
+      const _curETHAmount = toBN(orders[currentOrder].amount).mul(toBN(orders[currentOrder].price)).div(toBN('1000000000000000000'))
+      if (_ethAmount.lte(_curETHAmount)) {
+        pnkTotal = pnkTotal.add(_ethAmount.div(toBN(orders[currentOrder].price)).mul(toBN('1000000000000000000')))
+        // break out of loop
+        _ethAmount = toBN(0)
+      } else {
+        pnkTotal = pnkTotal.add(toBN(orders[currentOrder].amount))
+        // Subtract amount
+        _ethAmount = _ethAmount.sub(_curETHAmount)
+        currentOrder++
+      }
+    }
+
+    return pnkTotal.toString()
+  }
+
+  const curPNK = maxPNK(ethToSend)
+
+  const buyOrder = () => {
+    const _maxPriceConverted = toBN(orders[maxPriceIndex].price).mul(toBN(divisor))
+
+    send(_maxPriceConverted.toString(),{
+      value: ethToSend
+    })
   }
 
   return (
     <StyledPane>
       <StyledText style={{'marginTop' : '30px'}}>Make a transaction with a web3 wallet</StyledText>
-      <Row style={{'marginTop' : '30px'}}>
-        <Col offset={4} span={20}>
-          <InputLabel><StyledText>Amount to bid</StyledText></InputLabel>
-        </Col>
-      </Row>
-      <Row>
-        <Col offset={4} span={14}>
-          <StyledInput min={0} id='amount' type='number' placeholder={0} ref={amountToContributeRef} onChange={(e) => setAmountToContribute(e.target.value || 0)} />
-        </Col>
-        <Col offset={1} span={2}>
-          <StyledValueText>ETH</StyledValueText>
-        </Col>
-      </Row>
-      <Row>
-        <Col offset={4} span={13}>
-          <StyledSubtext style={{'textAlign' : 'right', 'marginRight': '9px'}}>With Maximum Price per PNK</StyledSubtext>
-        </Col>
-        <Col span={1}>
-          <StyledCheckbox min={0} type='checkbox' onChange={maxValChecked} />
-        </Col>
-      </Row>
-      <MaxPrice className='maxPrice'>
-        <div className='maxPrice-inputs' ref={maxValViewRef}>
-          <Row style={{'marginTop' : '30px'}}>
-            <Col offset={4} span={20}>
-              <InputLabel><StyledText>Maximum Price per PNK</StyledText></InputLabel>
-            </Col>
-          </Row>
-          <Row>
-            <Col offset={4} span={14}>
-              <StyledInput id='amount' type='number' placeholder={0} ref={maxValInputRef} onChange={(e) => maxValueChange(e.target.value)}
-            />
-            </Col>
-            <Col offset={1} span={2}>
-              <StyledValueText>ETH</StyledValueText>
-            </Col>
-          </Row>
-        </div>
-      </MaxPrice>
-      <Row style={{'marginTop' : '100px'}}>
-        <Col offset={4} span={14}>
-          <StyledButton disabled={!submitEnabled} onClick={submitTransaction}>Submit Bid</StyledButton>
-        </Col>
-      </Row>
-      <Row style={{'marginTop' : '5px'}}>
-        <Col offset={4} span={14}>
-          { unlockMetaMask }
-        </Col>
-      </Row>
-
+        <Row>
+          <InputLabel>Maximum Price per PNK</InputLabel>
+        </Row>
+        <Row>
+          <StyledSelect
+            defaultValue={0}
+            onChange={(v) => {setMaxPriceIndex(v)}}
+            className={'customSelect'}
+          >
+            {options}
+          </StyledSelect>
+        </Row>
+        <Row>
+          <InputLabel>ETH to Contribute</InputLabel>
+        </Row>
+        <Row>
+          <StyledInput
+            placeholder={`0 ETH`}
+            onChange={setETHAmount}
+            value={fromWei(ethToSend)}
+          />
+        </Row>
+        <Row>
+          <AmountLabel>Total</AmountLabel>
+          <AmountText>{fromWei(curPNK)} PNK</AmountText>
+        </Row>
+        <StyledButton onClick={buyOrder} disabled={disabled}>Contribute</StyledButton>
+        {
+          disabled ? (
+            <ErrorMessage><Icon style={{marginRight: '8px'}} type="exclamation-circle" /> Unlock Metamask to contribute</ErrorMessage>
+          ) : ''
+        }
     </StyledPane>
   )
 }
