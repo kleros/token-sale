@@ -50,6 +50,7 @@
     "standard-version": "^4.4.0"
   },
   "dependencies": {
+    "@kleros/react-components": "^1.0.1",
     "add": "^2.0.6",
     "antd": "^3.10.8",
     "copy-to-clipboard": "^3.0.8",

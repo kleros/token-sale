@@ -11,6 +11,7 @@ import drizzle from './drizzle'
 import { register } from './service-worker'
 import styled from 'styled-components/macro'
 import media from "styled-media-query";
+import { default as Footer } from "@kleros/react-components/dist/footer";
 
 const StyledLogoCol = styled(Col)`
   align-items: center;
@@ -51,6 +52,9 @@ const StyledLayoutContent = styled(Layout.Content)`
   background-color: transparent;
   padding: 0px 7.575vw 100px 7.575vw;
 `
+const StyledLayout = styled(Layout)`
+  min-height: 100vh;
+`
 export default () => (
   <>
     <Helmet>
@@ -63,7 +67,7 @@ export default () => (
     <DrizzleProvider drizzle={drizzle}>
       <Initializer>
         <BrowserRouter>
-          <Layout>
+          <StyledLayout>
             <Layout.Header>
               <Row>
                 <StyledLogoCol lg={3} md={6}>
@@ -87,7 +91,13 @@ export default () => (
                 <Route component={Home} exact path="/" />
               </Switch>
             </StyledLayoutContent>
-          </Layout>
+            <Footer
+              appName="Token Sale"
+              contractExplorerURL={`https://etherscan.io/address/${
+                process.env.REACT_APP_KLEROS_TEST_SALE_ADDRESS
+              }#code`}
+            />
+          </StyledLayout>
         </BrowserRouter>
       </Initializer>
     </DrizzleProvider>
