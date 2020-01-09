@@ -5,7 +5,7 @@ export default {
     header: {
       learnMore: 'Learn More About Kleros',
       title: 'Kleros Token Sale',
-      dates: 'Start: January 11th 2020. End: February 1st 2020'
+      dates: 'Start: January 11th 2020. End: February 11th 2020'
     },
     body: {
       title: 'Kleros PNK Sale',
@@ -39,14 +39,12 @@ export default {
       price: 'Price (ETH)',
       amount: 'Amount (PNK)'
     }
-  }
-}
-                     
-"fr": {
+  },
+  fr: {
     header: {
       learnMore: "En savoir plus sur Kleros",
       title: "Vente de Jetons Kleros",
-      dates: "Début : 11 janvier 2020. Fin : 1er février 2020"
+      dates: "Début : 11 janvier 2020. Fin : 11 février 2020"
     },
     body: {
       title: "Vente de PNK Kleros",
