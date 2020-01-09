@@ -1,6 +1,6 @@
 import '../styles/theme.css'
 import { BrowserRouter, NavLink, Route, Switch } from 'react-router-dom'
-import { Col, Layout, Menu, Row } from 'antd'
+import { Col, Layout, Menu, Row, Select } from 'antd'
 import { DrizzleProvider, Initializer } from '../temp/drizzle-react-hooks'
 import { Helmet } from 'react-helmet'
 import Home from '../containers/home'
@@ -45,6 +45,15 @@ const StyledColRight = styled(Col)`
     display: none;
   `}
 `
+const StyledLanguagesCol = styled(Col)`
+  align-items: right;
+  display: flex;
+  height: 60px;
+  justify-content: space-evenly;
+  white-space: nowrap;
+  overflow: hidden;
+`
+
 const StyledMenu = styled(Menu)`
   line-height: 60px !important;
   text-align: center;
@@ -55,6 +64,24 @@ const StyledLayoutContent = styled(Layout.Content)`
 `
 const StyledLayout = styled(Layout)`
   min-height: 100vh;
+`
+const StyledSelect = styled(Select)`
+  .ant-select-selection {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    padding: 0px 10px;
+
+    path {
+      fill: white;
+    }
+  }
+
+  width: 160px;
+  margin-top: 15px;
 `
 
 const getDefaultLanguage = () => {
@@ -81,20 +108,25 @@ export default () => {
             <StyledLayout>
               <Layout.Header>
                 <Row>
-                  <StyledLogoCol lg={3} md={6}>
-                    <Logo />
+                  <StyledLogoCol lg={3} md={6} sm={12} xs={12}>
+                    <a href='https://kleros.io' style={{marginTop: '20px'}}><Logo /></a>
                   </StyledLogoCol>
                   <StyledLeftCol lg={3} md={10} offset={2}>
-                    <a href="https://kleros.io">
-                      <StyledText>{Translations[language].header.learnMore}</StyledText>
-                    </a>
-                  </StyledLeftCol>
-                  <StyledColRight lg={10} offset={6}>
                     <StyledText>{Translations[language].header.title}</StyledText>
+                  </StyledLeftCol>
+                  <StyledColRight lg={10}>
                     <StyledText>
                       {Translations[language].header.dates}
                     </StyledText>
                   </StyledColRight>
+                  <StyledLanguagesCol lg={6} md={6} xs={12}>
+                    <StyledSelect defaultValue={language} onChange={val => {setLanguage(val)}}>
+                      <Select.Option value='en'>English</Select.Option>
+                      <Select.Option value='es'>Español</Select.Option>
+                      <Select.Option value='fr'>Français</Select.Option>
+                      <Select.Option value='pt'>Portugués</Select.Option>
+                    </StyledSelect>
+                  </StyledLanguagesCol>
                 </Row>
               </Layout.Header>
               <StyledLayoutContent>

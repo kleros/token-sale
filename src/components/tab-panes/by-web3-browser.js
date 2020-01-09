@@ -143,7 +143,7 @@ const toLetters = (num) => {
 const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
   const options = orders.map((o, i) => (
     <StyledOption value={i}>
-      {toLetters(i)} - Price at {fromWei(o.price.toString())} ETH
+      {toLetters(i)} - {fromWei(o.price.toString())} ETH
     </StyledOption>
   ))
 

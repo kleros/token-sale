@@ -119,7 +119,7 @@ const StyledPending = styled(Clock)`
   height: 20px;
 `
 
-const SALE_TOTAL = '16000000'
+const SALE_TOTAL = '15000000'
 
 export default ({ language }) => {
   const { useCacheCall, useCacheEvents, drizzle } = useDrizzle()
