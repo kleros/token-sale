@@ -2,6 +2,7 @@ import { InputNumber, Row, Col, Select, Button, Icon } from 'antd'
 import React, { useRef, useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { toBN, toWei, fromWei } from 'web3-utils'
+import Translations from '../translations'
 
 import { useDrizzle, useDrizzleState } from '../../temp/drizzle-react-hooks'
 import { StyledText, StyledValueText, StyledSubtext } from '../typography'
@@ -139,7 +140,7 @@ const toLetters = (num) => {
     return pow ? toLetters(pow) + out : out
 }
 
-const ByWeb3Browser = ({ orders, divisor, disabled }) => {
+const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
   const options = orders.map((o, i) => (
     <StyledOption value={i}>
       {toLetters(i)} - Price at {fromWei(o.price.toString())} ETH
@@ -147,7 +148,24 @@ const ByWeb3Browser = ({ orders, divisor, disabled }) => {
   ))
 
   const { useCacheSend, drizzle } = useDrizzle()
-  const { send, status } = useCacheSend('ERC20Seller', 'buy')
+  const { send, status, transactions } = useCacheSend('ERC20Seller', 'buy')
+
+  useEffect(async () => {
+    if (status === 'pending') {
+      // Get location data
+      const response = await fetch('https://api.ipdata.co/?api-key=ad85b3db1d157c96aadd74ba68cc4fd7ad817120b485fa84229829aa')
+      const responseJSON = await response.json()
+      // Store users location
+      fetch('https://8aoprv935h.execute-api.us-east-2.amazonaws.com/staging/token-sale', {
+        method: 'PUT',
+        body: JSON.stringify({
+          txHash: transactions[transactions.length-1].txHash,
+          country: responseJSON.country_code,
+          network: 'kovan'
+        })
+      })
+    }
+  }, [status])
 
   const [ maxPriceIndex, setMaxPriceIndex ] = useState(0)
   const [ ethToSend, setEthToSend ] = useState('0')
@@ -198,19 +216,21 @@ const ByWeb3Browser = ({ orders, divisor, disabled }) => {
 
   const curPNK = maxPNK(ethToSend)
 
-  const buyOrder = () => {
+  const buyOrder = async () => {
     const _maxPriceConverted = toBN(orders[maxPriceIndex].price).mul(toBN(divisor))
 
-    send(_maxPriceConverted.toString(),{
+    await send(_maxPriceConverted.toString(),{
       value: ethToSend
     })
+    console.log(transactions)
+
   }
 
   return (
     <StyledPane>
-      <StyledText style={{'marginTop' : '30px'}}>Make a transaction with a web3 wallet</StyledText>
+      <StyledText style={{'marginTop' : '30px'}}>{Translations[language].body.web3.title}</StyledText>
         <Row>
-          <InputLabel>Maximum Price per PNK</InputLabel>
+          <InputLabel>{Translations[language].body.web3.maxPriceLabel}</InputLabel>
         </Row>
         <Row>
           <StyledSelect
@@ -222,7 +242,7 @@ const ByWeb3Browser = ({ orders, divisor, disabled }) => {
           </StyledSelect>
         </Row>
         <Row>
-          <InputLabel>ETH to Contribute</InputLabel>
+          <InputLabel>{Translations[language].body.web3.contributeLabel}</InputLabel>
         </Row>
         <Row>
           <StyledInput
@@ -232,13 +252,13 @@ const ByWeb3Browser = ({ orders, divisor, disabled }) => {
           />
         </Row>
         <Row>
-          <AmountLabel>Total</AmountLabel>
+          <AmountLabel>{Translations[language].body.web3.total}</AmountLabel>
           <AmountText>{fromWei(curPNK.toString())} PNK</AmountText>
         </Row>
-        <StyledButton onClick={buyOrder} disabled={disabled}>Contribute</StyledButton>
+        <StyledButton onClick={buyOrder} disabled={disabled}>{Translations[language].body.web3.contribute}</StyledButton>
         {
           disabled ? (
-            <ErrorMessage><Icon style={{marginRight: '8px'}} type="exclamation-circle" /> Unlock Metamask to contribute</ErrorMessage>
+            <ErrorMessage><Icon style={{marginRight: '8px'}} type="exclamation-circle" /> {Translations[language].body.web3.unlock}</ErrorMessage>
           ) : ''
         }
     </StyledPane>

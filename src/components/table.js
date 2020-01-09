@@ -6,6 +6,8 @@ import { fromWei } from 'web3-utils'
 import { useDrizzle, useDrizzleState } from '../temp/drizzle-react-hooks'
 import MonthAbreviations from '../utils/month-abreviations'
 
+import Translations from './translations'
+
 const StyledTable = styled(Table)`
   .ant-table-content {
     background: rgba(255, 255, 255, 0.07);
@@ -70,25 +72,27 @@ const StyledTable = styled(Table)`
   }
 `
 
-const columns = [{
-  title: 'Sell Order',
-  dataIndex: 'index',
-  key: 'index'
-}, {
-  title: 'Price (ETH)',
-  dataIndex: 'price',
-  key: 'price',
-  render: (val) => (
-    fromWei(val.toString())
-  )
-}, {
-  title: 'Amount (PNK)',
-  dataIndex: 'amount',
-  key: 'amount',
-  render: (val) => (
-    fromWei(val.toString())
-  )
-}]
+const columns = (language) => (
+  [{
+    title: Translations[language].orders.sellOrder,
+    dataIndex: 'index',
+    key: 'index'
+  }, {
+    title: Translations[language].orders.price,
+    dataIndex: 'price',
+    key: 'price',
+    render: (val) => (
+      fromWei(val.toString())
+    )
+  }, {
+    title: Translations[language].orders.amount,
+    dataIndex: 'amount',
+    key: 'amount',
+    render: (val) => (
+      fromWei(val.toString())
+    )
+  }]
+)
 
 const toLetters = (num) => {
     let mod = (num + 1) % 26
@@ -98,12 +102,13 @@ const toLetters = (num) => {
 }
 
 export default ({
-  columnData
+  columnData,
+  language
 }) => {
   const _data = columnData.map((d, i) => ({
     ...d,
     index: toLetters(i)
   }))
 
-  return (<StyledTable columns={columns} dataSource={_data} scroll={{ x: 'fit-content' }} />)
+  return (<StyledTable columns={columns(language)} dataSource={_data} scroll={{ x: 'fit-content' }} />)
 }

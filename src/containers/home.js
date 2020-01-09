@@ -24,6 +24,7 @@ import { ReactComponent as Clock } from '../assets/images/clock-regular.svg'
 import { ReactComponent as Accepted } from '../assets/images/check-solid.svg'
 import { ReactComponent as Rejected } from '../assets/images/times-solid.svg'
 import HeaderImg from '../assets/images/header.png'
+import Translations from '../components/translations'
 
 const StyledCardContainer = styled.div`
   margin-top: 25px;
@@ -120,7 +121,7 @@ const StyledPending = styled(Clock)`
 
 const SALE_TOTAL = '16000000'
 
-export default () => {
+export default ({ language }) => {
   const { useCacheCall, useCacheEvents, drizzle } = useDrizzle()
   const drizzleState = useDrizzleState(drizzleState => ({
     loaded: drizzleState.drizzleStatus.initialized,
@@ -243,15 +244,16 @@ export default () => {
     <div>
       <Row>
         <img src={HeaderImg} />
-        <StyledHeading>Kleros PNK Sale</StyledHeading>
+        <StyledHeading>{Translations[language].body.title}</StyledHeading>
       </Row>
       <Row style={{ marginBottom: '76px' }}>
         <Col lg={9}>
-          <StyledSubheading>How to Contribute</StyledSubheading>
+          <StyledSubheading>{Translations[language].body.contribute}</StyledSubheading>
           <StyledCardContainer>
             <Tabs type="card">
-              <Tabs.TabPane key={1} tab={<StyledTabText>Basic</StyledTabText>}>
+              <Tabs.TabPane key={1} tab={<StyledTabText>{Translations[language].body.basicHeading}</StyledTabText>}>
                 <ByAddressPane
+                  language={language}
                   contributionAddress={
                     drizzle.contracts['ERC20Seller']
                       ? drizzle.contracts['ERC20Seller'].address
@@ -259,8 +261,8 @@ export default () => {
                   }
                 />
               </Tabs.TabPane>
-              <Tabs.TabPane key={2} tab={<StyledTabText>Web3</StyledTabText>}>
-                <ByWeb3Browser orders={normalizedOrders} disabled={!account} divisor={divisor} />
+              <Tabs.TabPane key={2} tab={<StyledTabText>{Translations[language].body.web3Heading}</StyledTabText>}>
+                <ByWeb3Browser orders={normalizedOrders} disabled={!account} divisor={divisor} language={language} />
               </Tabs.TabPane>
             </Tabs>
           </StyledCardContainer>
@@ -268,10 +270,10 @@ export default () => {
         <Col lg={13} offset={1}>
           <BreakLine style={{marginTop: '95px'}}/>
           <StyledText style={{ marginBottom: '18px', marginTop: '18px' }}>
-            A total of 160 Million of Pinakion (PNK) will be sold over the course of the next (two) week(s).
+            {Translations[language].body.totals.title}
           </StyledText>
           <InformationCardsBox
-            subtextMain="Amount for Sale"
+            subtextMain={Translations[language].body.totals.amountForSale}
             noMiddleLine={true}
             textMain={
               `${SALE_TOTAL.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`
@@ -281,8 +283,8 @@ export default () => {
             }
           />
           <InformationCardsBox
-            subtextMain="TOTAL PNK sold"
-            subtextSecondary="Remaining amount for sale"
+            subtextMain={Translations[language].body.totals.totalSold}
+            subtextSecondary={Translations[language].body.totals.remaining}
             textMain={`${Number(fromWei(purchaseAmount.toString())).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`}
             textSecondary={`${Number(fromWei(toBN(toWei(SALE_TOTAL.toString())).sub(toBN(purchaseAmount)).toString()).toString()).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`}
           />
@@ -291,14 +293,14 @@ export default () => {
       <BreakLine />
       <Row style={{ margin: '45px 0px' }}>
         <Col lg={9}>
-          <StyledSubheading>Sell Orders</StyledSubheading>
+          <StyledSubheading>{Translations[language].orders.title}</StyledSubheading>
         </Col>
       </Row>
       <SellOrdersGraph orders={normalizedOrders && normalizedOrders[0] ? normalizedOrders : []} />
 
       <Row>
         <Col lg={24}>
-          <Table columnData={normalizedOrders && normalizedOrders[0] ? normalizedOrders : []} />
+          <Table language={language} columnData={normalizedOrders && normalizedOrders[0] ? normalizedOrders : []} />
         </Col>
       </Row>
     </div>

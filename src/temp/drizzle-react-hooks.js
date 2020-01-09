@@ -97,10 +97,12 @@ export const DrizzleProvider = ({ children, drizzle }) => {
       }))
       const [stackIDs, setStackIDs] = useState([])
       const transactions = stackIDs.map(
-        stackID =>
-          drizzleState.transactions[
+        stackID => ({
+          ...drizzleState.transactions[
             drizzleState.transactionStack[stackID] || 'undefined'
-          ]
+          ],
+          txHash: drizzleState.transactionStack[stackID]
+        })
       )
       return {
         send: (...args) =>
@@ -178,11 +180,30 @@ export const Initializer = ({
   loadingContractsAndAccounts,
   loadingWeb3
 }) => {
-  const drizzleState = useDrizzleState(drizzleState => ({
-    drizzleStatusInitialized: drizzleState.drizzleStatus.initialized,
-    web3Status: drizzleState.web3.status
-  }))
-  return children // Don't want to delay load for Drizzle
+  // const drizzleState = useDrizzleState(drizzleState => ({
+  //   drizzleStatusInitialized: drizzleState.drizzleStatus.initialized,
+  //   web3Status: drizzleState.web3.status
+  // }))
+  // return children // Don't want to delay load for Drizzle
+  const drizzleState = useDrizzleState(drizzleState => {
+    return ({
+      drizzleStatusInitialized: drizzleState.drizzleStatus.initialized,
+      web3Status: drizzleState.web3.status
+    })
+  })
+  const [timedOut, setTimedOut] = useState(false)
+  useEffect(() => {
+    const timeout = setTimeout(() => setTimedOut(true), 5000)
+    return () => clearTimeout(timeout)
+  }, [])
+  // try {
+  //
+  // }
+  if (drizzleState.drizzleStatusInitialized) return children
+  if (drizzleState.web3Status === 'initialized' && timedOut)
+    return loadingContractsAndAccounts
+  if (drizzleState.web3Status === 'failed') return error
+  return loadingWeb3
 }
 
 Initializer.propTypes = {

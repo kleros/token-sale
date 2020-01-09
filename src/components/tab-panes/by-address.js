@@ -3,6 +3,7 @@ import Copy from 'copy-to-clipboard'
 import QRCode from 'qrcode.react' // TODO should use hardcoded image for security?
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
+import Translations from '../translations'
 
 import { StyledText, StyledValueText } from '../typography'
 
@@ -28,30 +29,29 @@ const AddressResponsive = styled(StyledValueText)`
   margin-top: 10px;
 `
 
-const BUTTON_TEXT = 'Copy Contribution Address'
-
 const ByAddressPane = ({
-  contributionAddress
+  contributionAddress,
+  language
 }) => {
   const [state, setState] = useState({
-    buttonText: BUTTON_TEXT
+    buttonText: Translations[language].body.basic.copyContrib
   })
 
   const CopyToClipboard = () => {
     Copy(contributionAddress)
     setState({
-      buttonText: 'Copied!'
+      buttonText: Translations[language].body.basic.copied
     })
 
     setTimeout(function(){ setState({
-      buttonText: BUTTON_TEXT
+      buttonText: Translations[language].body.basic.copyContrib
     }) }, 500);
   }
 
   return (
     <StyledPane>
       <StyledText style={{'marginTop' : '30px', 'marginBottom' : '34px'}}>
-        Send ETH directly to the following address<sup>*</sup>
+        {Translations[language].body.basic.title}
       </StyledText>
       <QRCode
         value={contributionAddress}
@@ -60,7 +60,7 @@ const ByAddressPane = ({
       />
       <AddressResponsive>{contributionAddress}</AddressResponsive>
       <StyledButton onClick={CopyToClipboard}>{state.buttonText}</StyledButton>
-      <StyledText style={{'padding': '0px 54px', 'marginTop': '55px'}}><sup>*</sup>Fills the cheapest orders first</StyledText>
+      <StyledText style={{'padding': '0px 54px', 'marginTop': '55px'}}>{Translations[language].body.basic.disclaimer}</StyledText>
     </StyledPane>
   )
 }
