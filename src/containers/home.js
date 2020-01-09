@@ -169,6 +169,9 @@ export default ({ language }) => {
       })
     }
   })
+  const sortedOrders = normalizedOrders && normalizedOrders.sort((a, b) => {
+    return toBN(a.price).sub(toBN(b.price)).toNumber()
+  })
 
   const purchaseEvents = useCacheEvents('ERC20Seller', 'TokenPurchase', { fromBlock: 0 })
 
@@ -262,7 +265,7 @@ export default ({ language }) => {
                 />
               </Tabs.TabPane>
               <Tabs.TabPane key={2} tab={<StyledTabText>{Translations[language].body.web3Heading}</StyledTabText>}>
-                <ByWeb3Browser orders={normalizedOrders} disabled={!account} divisor={divisor} language={language} />
+                <ByWeb3Browser orders={sortedOrders} disabled={!account} divisor={divisor} language={language} />
               </Tabs.TabPane>
             </Tabs>
           </StyledCardContainer>
@@ -296,11 +299,11 @@ export default ({ language }) => {
           <StyledSubheading>{Translations[language].orders.title}</StyledSubheading>
         </Col>
       </Row>
-      <SellOrdersGraph orders={normalizedOrders && normalizedOrders[0] ? normalizedOrders : []} />
+      <SellOrdersGraph orders={sortedOrders && sortedOrders[0] ? sortedOrders : []} />
 
       <Row>
         <Col lg={24}>
-          <Table language={language} columnData={normalizedOrders && normalizedOrders[0] ? normalizedOrders : []} />
+          <Table language={language} columnData={sortedOrders && sortedOrders[0] ? sortedOrders : []} />
         </Col>
       </Row>
     </div>
