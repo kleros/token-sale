@@ -15,7 +15,7 @@ export default {
         title: (<>Send ETH directly to the following address<sup>*</sup></>),
         copyContrib: 'Copy Contribution Address',
         copied: 'Copied!',
-        disclaimer: (<><sup>*</sup>Lower price orders will be filled first.</>)
+        disclaimer: (<><sup>*</sup>Lowest priced orders will be filled first.</>)
       },
       web3Heading: 'Web3',
       web3: {

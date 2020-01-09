@@ -64,6 +64,7 @@ const StyledLayoutContent = styled(Layout.Content)`
 `
 const StyledLayout = styled(Layout)`
   min-height: 100vh;
+  overflow-x: hidden;
 `
 const StyledSelect = styled(Select)`
   .ant-select-selection {
