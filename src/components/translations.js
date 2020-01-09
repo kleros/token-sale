@@ -27,7 +27,7 @@ export default {
         unlock: 'Unlock Metamask to contribute'
       },
       totals: {
-        title: 'A total of 160 Million of Pinakion (PNK) will be sold over the course of the next (two) week(s).',
+        title: 'A total of 150 Million of Pinakion (PNK) will be sold over the course of the next (two) week(s).',
         amountForSale: 'Amount For Sale',
         totalSold: 'TOTAL PNK Sold',
         remaining: 'Remaining amount for sale'
