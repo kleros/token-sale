@@ -63,7 +63,7 @@ const StyledSelect = styled(Select)`
     color: white;
     height: 40px;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 21px;
     padding: 5px 20px;
 
@@ -79,7 +79,7 @@ const StyledSelect = styled(Select)`
     color: white;
     height: 40px;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 21px;
     padding: 5px 20px;
 

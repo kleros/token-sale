@@ -249,7 +249,7 @@ export default ({ language }) => {
         <img src={HeaderImg} />
         <StyledHeading>{Translations[language].body.title}</StyledHeading>
       </Row>
-      <Row style={{ marginBottom: '76px' }}>
+      <Row style={{ marginBottom: '76px', marginTop: '-25px' }}>
         <Col lg={9}>
           <StyledSubheading>{Translations[language].body.contribute}</StyledSubheading>
           <StyledCardContainer>
@@ -279,7 +279,7 @@ export default ({ language }) => {
             subtextMain={Translations[language].body.totals.amountForSale}
             noMiddleLine={true}
             textMain={
-              `${SALE_TOTAL.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`
+              `${SALE_TOTAL.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} PNK`
             }
             textSecondary={
               ''
@@ -288,8 +288,8 @@ export default ({ language }) => {
           <InformationCardsBox
             subtextMain={Translations[language].body.totals.totalSold}
             subtextSecondary={Translations[language].body.totals.remaining}
-            textMain={`${Number(fromWei(purchaseAmount.toString())).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`}
-            textSecondary={`${Number(fromWei(toBN(toWei(SALE_TOTAL.toString())).sub(toBN(purchaseAmount)).toString()).toString()).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} PNK`}
+            textMain={`${Number(fromWei(purchaseAmount.toString())).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} PNK`}
+            textSecondary={`${Number(fromWei(toBN(toWei(SALE_TOTAL.toString())).sub(toBN(purchaseAmount)).toString()).toString()).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} PNK`}
           />
         </Col>
       </Row>

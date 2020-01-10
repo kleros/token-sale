@@ -22,11 +22,23 @@ const StyledButton = styled(Button)`
   &:hover {
     color: white;
   }
+
+  @media (max-width: 1178px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 991px) {
+    font-size: 14px;
+  }
 `
 
 const AddressResponsive = styled(StyledValueText)`
-  font-size: 100%;
+  font-size: 1vw;
   margin-top: 10px;
+
+  @media (max-width: 991px) {
+    font-size: 14px;
+  }
 `
 
 const ByAddressPane = ({
