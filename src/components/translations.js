@@ -36,7 +36,7 @@ export default {
       },
       totals: {
         title:
-          'A total of 150 Million PNK will be will be put for sale from January 11 to February 11, 2020',
+          'A total of 150 Million PNK will be put on sale from January 11 to February 11, 2020',
         amountForSale: 'Amount For Sale',
         totalSold: 'Total Sold',
         remaining: 'Remaining for Sale'
