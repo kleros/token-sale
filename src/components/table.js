@@ -14,9 +14,10 @@ const StyledTable = styled(Table)`
     padding: 0px 8px;
     padding-top: 20px;
 
-    td, th {
+    td,
+    th {
       border: none;
-      border-right: 1px solid rgba(255, 255, 255, .2);
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
       padding: 5px 25px;
       font-size: 18px;
     }
@@ -30,7 +31,8 @@ const StyledTable = styled(Table)`
       opacity: 0.5;
     }
 
-    td:last-child, th:last-child {
+    td:last-child,
+    th:last-child {
       border-right: none;
     }
   }
@@ -61,7 +63,6 @@ const StyledTable = styled(Table)`
         color: white;
         opacity: 0.5;
       }
-
     }
 
     .ant-pagination-item-active {
@@ -72,43 +73,41 @@ const StyledTable = styled(Table)`
   }
 `
 
-const columns = (language) => (
-  [{
+const columns = language => [
+  {
     title: Translations[language].orders.sellOrder,
     dataIndex: 'index',
     key: 'index'
-  }, {
+  },
+  {
     title: Translations[language].orders.price,
     dataIndex: 'price',
     key: 'price',
-    render: (val) => (
-      fromWei(val.toString())
-    )
-  }, {
+    render: val => fromWei(val.toString())
+  },
+  {
     title: Translations[language].orders.amount,
     dataIndex: 'amount',
     key: 'amount',
-    render: (val) => (
-      fromWei(val.toString()).toString().split('.')[0]
-    )
-  }]
-)
+    render: val =>
+      fromWei(val.toString())
+        .toString()
+        .split('.')[0]
+  }
+]
 
-const toLetters = (num) => {
-    let mod = (num + 1) % 26
-    let pow = (num + 1) / 26 | 0
-    const out = mod ? String.fromCharCode(64 + mod) : (--pow, 'Z')
-    return pow ? toLetters(pow) + out : out
+const toLetters = num => {
+  let mod = (num + 1) % 26
+  let pow = ((num + 1) / 26) | 0
+  const out = mod ? String.fromCharCode(64 + mod) : (--pow, 'Z')
+  return pow ? toLetters(pow) + out : out
 }
 
-export default ({
-  columnData,
-  language
-}) => {
+export default ({ columnData, language }) => {
   const _data = columnData.map((d, i) => ({
     ...d,
     index: toLetters(i)
   }))
 
-  return (<StyledTable columns={columns(language)} dataSource={_data} scroll={{ x: 'fit-content' }} />)
+  return <StyledTable columns={columns(language)} dataSource={_data} />
 }
