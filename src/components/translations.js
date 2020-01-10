@@ -59,14 +59,14 @@ export default {
       web3Heading: "Méthode Web3",
       web3: {
         title: "Faire une transaction depuis un porte-monnaie Web3",
-        maxPriceLabel: "Prix maximum par PNK",
-        contributeLabel: "ETH en contribution",
+        maxPriceLabel: "Quel est le prix maximum que vous souhaitez payer par PNK ?",
+        contributeLabel: "De combien d'ETH souhaitez-vous contribuer ?",
         total: "Total",
         contribute: "Contribuer",
         unlock: "Déverrouiller MetaMask pour contribuer"
       },
       totals: {
-        title: "Au total, 150 Million de Pinakion (PNK) seront mis en vente au cours de la (des deux) prochaine(s) semaine(s).",
+        title: "Au total, 150 Million de Pinakion (PNK) seront mis en vente au cours du mois.",
         amountForSale: "Quantité mise en vente",
         totalSold: "Quantité vendue",
         remaining: "Quantité restant à vendre"
