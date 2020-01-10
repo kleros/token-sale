@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default {
-  'en': {
+  en: {
     header: {
       learnMore: 'Learn More About Kleros',
       title: 'Kleros Token Sale',
@@ -12,10 +12,18 @@ export default {
       contribute: 'How to Contribute',
       basicHeading: 'Basic',
       basic: {
-        title: (<>Send ETH directly to the following address<sup>*</sup></>),
+        title: (
+          <>
+            Send ETH directly to the following address<sup>*</sup>
+          </>
+        ),
         copyContrib: 'Copy Contribution Address',
         copied: 'Copied!',
-        disclaimer: (<><sup>*</sup>Lowest priced orders will be filled first.</>)
+        disclaimer: (
+          <>
+            <sup>*</sup>Lowest priced orders will be filled first.
+          </>
+        )
       },
       web3Heading: 'Web3',
       web3: {
@@ -27,7 +35,8 @@ export default {
         unlock: 'Unlock Metamask to contribute'
       },
       totals: {
-        title: 'A total of 150 Million of Pinakion (PNK) will be sold over the course of the next month',
+        title:
+          'A total of 150 Million of Pinakion (PNK) will be sold over the course of the next month',
         amountForSale: 'Amount For Sale',
         totalSold: 'Total Sold',
         remaining: 'Remaining for Sale'
@@ -40,46 +49,56 @@ export default {
       amount: 'Amount (PNK)'
     }
   },
-  'fr': {
+  fr: {
     header: {
-      learnMore: "En savoir plus sur Kleros",
-      title: "Vente de Jetons Kleros",
-      dates: "Début : 11 janvier 2020. Fin : 11 février 2020"
+      learnMore: 'En savoir plus sur Kleros',
+      title: 'Vente de Jetons Kleros',
+      dates: 'Début : 11 janvier 2020. Fin : 11 février 2020'
     },
     body: {
-      title: "Vente de PNK Kleros",
-      contribute: "Comment contribuer",
-      basicHeading: "Méthode simple",
+      title: 'Vente de PNK Kleros',
+      contribute: 'Comment contribuer',
+      basicHeading: 'Méthode simple',
       basic: {
-        title: (<>Envoyez vos ETH directement à l adresse suivante<sup>*</sup></>),
+        title: (
+          <>
+            Envoyez vos ETH directement à l adresse suivante<sup>*</sup>
+          </>
+        ),
         copyContrib: "Copier l'adresse de contribution",
-        copied: "Copiée !",
-        disclaimer: (<><sup>*</sup>Les ordres les plus bas sont remplis en premier</>)
+        copied: 'Copiée !',
+        disclaimer: (
+          <>
+            <sup>*</sup>Les ordres les plus bas sont remplis en premier
+          </>
+        )
       },
-      web3Heading: "Méthode Web3",
+      web3Heading: 'Méthode Web3',
       web3: {
-        title: "Faire une transaction depuis un porte-monnaie Web3",
-        maxPriceLabel: "Quel est le prix maximum que vous souhaitez payer par PNK ?",
+        title: 'Faire une transaction depuis un porte-monnaie Web3',
+        maxPriceLabel:
+          'Quel est le prix maximum que vous souhaitez payer par PNK ?',
         contributeLabel: "De combien d'ETH souhaitez-vous contribuer ?",
-        total: "Total",
-        contribute: "Contribuer",
-        unlock: "Déverrouiller MetaMask pour contribuer"
+        total: 'Total',
+        contribute: 'Contribuer',
+        unlock: 'Déverrouiller MetaMask pour contribuer'
       },
       totals: {
-        title: "Au total, 150 Million de Pinakion (PNK) seront mis en vente au cours du mois.",
-        amountForSale: "Quantité mise en vente",
-        totalSold: "Quantité vendue",
-        remaining: "Quantité restant à vendre"
+        title:
+          'Au total, 150 Million de Pinakion (PNK) seront mis en vente au cours du mois.',
+        amountForSale: 'Quantité mise en vente',
+        totalSold: 'Quantité vendue',
+        remaining: 'Quantité restant à vendre'
       }
     },
     orders: {
-      title: "Les Ordres de Vente",
-      sellOrder: "Ordre de vente",
-      price: "Prix (ETH)",
-      amount: "Quantité (PNK)"
+      title: 'Les Ordres de Vente',
+      sellOrder: 'Ordre de vente',
+      price: 'Prix (ETH)',
+      amount: 'Quantité (PNK)'
     }
   },
-  'pt': {
+  pt: {
     header: {
       learnMore: 'Saiba mais sobre o Kleros',
       title: 'Venda de Tokens Kleros ',
@@ -90,26 +109,35 @@ export default {
       contribute: 'Como Contribuir',
       basicHeading: 'Básico',
       basic: {
-        title: (<>Faça a contribuição enviando ETH para este endereço<sup>*</sup></>),
+        title: (
+          <>
+            Faça a contribuição enviando ETH para este endereço<sup>*</sup>
+          </>
+        ),
         copyContrib: 'Copie o Endereço de Contribuição',
         copied: 'Copiado!',
-        disclaimer: (<><sup>*</sup>A contribuição preenche os pedidos mais baratos primeiro</>)
-     },
-     web3Heading: 'Web3',
-     web3: {
-       title: 'Faça a transação com uma carteira Web3',
-       maxPriceLabel: 'Qual o preço máximo que você deseja pagar por PNK?',
-       contributeLabel: 'Quantos ETH você deseja contribuir?',
-       total: 'Total',
-       contribute: 'Contribua',
-       unlock: 'Desbloqueie o Metamask para contribuir'
-     },
-     totals: {
-       title: 'Um total de 150 milhões de Pinakions (PNK) serão colocados à venda ao longo do próximo mês.',
-       amountForSale: 'Quantidade à venda',
-       totalSold: 'Total Vendido',
-       remaining: 'Quantidade restante à venda'
-     }
+        disclaimer: (
+          <>
+            <sup>*</sup>A contribuição preenche os pedidos mais baratos primeiro
+          </>
+        )
+      },
+      web3Heading: 'Web3',
+      web3: {
+        title: 'Faça a transação com uma carteira Web3',
+        maxPriceLabel: 'Qual o preço máximo que você deseja pagar por PNK?',
+        contributeLabel: 'Quantos ETH você deseja contribuir?',
+        total: 'Total',
+        contribute: 'Contribua',
+        unlock: 'Desbloqueie o Metamask para contribuir'
+      },
+      totals: {
+        title:
+          'Um total de 150 milhões de Pinakions (PNK) serão colocados à venda ao longo do próximo mês.',
+        amountForSale: 'Quantidade à venda',
+        totalSold: 'Total Vendido',
+        remaining: 'Quantidade restante à venda'
+      }
     },
     orders: {
       title: 'Ordens de Venda',
@@ -118,7 +146,7 @@ export default {
       amount: 'Quantidade (PNK)'
     }
   },
-  'es': {
+  es: {
     header: {
       learnMore: 'Learn More About Kleros',
       title: 'Venta de Token de Kleros',
@@ -129,15 +157,23 @@ export default {
       contribute: 'Cómo Contribuir',
       basicHeading: 'Básico',
       basic: {
-        title: (<>Enviar ETH directamente a la siguiente dirección<sup>*</sup></>),
+        title: (
+          <>
+            Enviar ETH directamente a la siguiente dirección<sup>*</sup>
+          </>
+        ),
         copyContrib: 'Copiar Dirección',
         copied: 'Copied!',
-        disclaimer: (<><sup>*</sup>Las órdenes de menor precio se llenan primero.</>)
+        disclaimer: (
+          <>
+            <sup>*</sup>Las órdenes de menor precio se llenan primero.
+          </>
+        )
       },
       web3Heading: 'Web3',
       web3: {
         title: 'Hacer transacción con wallet web3',
-        maxPriceLabel: "¿Cuál es el precio máximo que quieres pagar por PNK?",
+        maxPriceLabel: '¿Cuál es el precio máximo que quieres pagar por PNK?',
         contributeLabel: '¿Cuánto ETH quieres contribuir?',
         total: 'Total',
         contribute: 'Contribuir',
@@ -155,6 +191,55 @@ export default {
       sellOrder: 'Orden de Venta',
       price: 'Precio (ETH)',
       amount: 'Cantidad (PNK)'
+    }
+  },
+  tr: {
+    header: {
+      learnMore: 'Kleros hakkında detaylı bilgi için',
+      title: 'Kleros Jeton Satışı',
+      dates: 'Başlangıç: 11 Ocak 2020. Bitiş: 11 Şubat 2020'
+    },
+    body: {
+      title: 'Kleros PNK Satışı',
+      contribute: 'Satış Paneli',
+      basicHeading: 'Basit',
+      basic: {
+        title: (
+          <>
+            Bu adrese ETH göndermeniz yeterli<sup>*</sup>
+          </>
+        ),
+        copyContrib: 'Adresi Kopyala',
+        copied: 'Kopyalandı!',
+        disclaimer: (
+          <>
+            <sup>*</sup>Mümkün olan en düşük fiyattan satın alınacaktır
+          </>
+        )
+      },
+      web3Heading: 'Web3',
+      web3: {
+        title: 'Web3 cüzdanınız ile bir işlem yapın',
+        maxPriceLabel:
+          'Bir adet PNK jetonu için ödemek istediğiniz azami fiyat nedir?',
+        contributeLabel: 'Ne kadar ETH karşılığı satın almak istiyorsunuz?',
+        total: 'Toplam',
+        contribute: 'Satın Al',
+        unlock: "Satın alabilmek için Metamask'i açın"
+      },
+      totals: {
+        title:
+          '11 Ocak ve 11 Şubat arasında toplam 150 Milyon jeton satılacaktır',
+        amountForSale: 'Satışa Çıkarılan Toplam Miktar',
+        totalSold: 'Satılan Miktar',
+        remaining: 'Satılmayı Bekleyen Miktar'
+      }
+    },
+    orders: {
+      title: 'Satış Emirleri',
+      sellOrder: 'Satış Emri',
+      price: 'Fiyat (ETH)',
+      amount: 'Miktar (PNK)'
     }
   }
 }
