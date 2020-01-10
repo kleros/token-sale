@@ -1155,10 +1155,10 @@
     stylelint-scss "^3.4.0"
     stylelint-selector-bem-pattern "^2.0.0"
 
-"@kleros/react-components@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@kleros/react-components/-/react-components-1.0.1.tgz#759385f7479d26387528afaac4bae6992566c63d"
-  integrity sha512-xT7tTav9ROwfXecBpCcZ2S9nez2Owrgz0Kg7mVyoO48zRtj5Ocyg1jSymWniBUCuux7ukUuDpYEwHfQBIEnhWw==
+"@kleros/react-components@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@kleros/react-components/-/react-components-2.1.0.tgz#289eb112c38433c1df2c283eac141c6059aa72d0"
+  integrity sha512-rOJNWUm0JX6JIGrx6kcoUklszGgwJ0Mxx7ATDOJtTrJcbSrJ84wySsRdJXPhJCPlevVxzgo/PsRiCRievHdVAA==
 
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
