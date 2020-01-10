@@ -1,19 +1,19 @@
-import { InputNumber, Row, Col, Select, Button, Icon } from 'antd'
-import React, { useRef, useState, useEffect } from 'react'
-import styled from 'styled-components/macro'
-import { toBN, toWei, fromWei } from 'web3-utils'
-import Translations from '../translations'
+import { InputNumber, Row, Col, Select, Button, Icon } from "antd";
+import React, { useRef, useState, useEffect } from "react";
+import styled from "styled-components/macro";
+import { toBN, toWei, fromWei } from "web3-utils";
+import Translations from "../translations";
 
-import { useDrizzle, useDrizzleState } from '../../temp/drizzle-react-hooks'
-import { StyledText, StyledValueText, StyledSubtext } from '../typography'
-import { ethToWei, pricePerPNKToMaxVal, INFINITY } from '../../utils/numbers'
+import { useDrizzle, useDrizzleState } from "../../temp/drizzle-react-hooks";
+import { StyledText, StyledValueText, StyledSubtext } from "../typography";
+import { ethToWei, pricePerPNKToMaxVal, INFINITY } from "../../utils/numbers";
 
-import './select-theme.css'
+import "./select-theme.css";
 
 const StyledPane = styled.div`
   text-align: center;
   padding: 0px 40px 0px 40px;
-`
+`;
 const InputLabel = styled.div`
   margin: auto;
   p {
@@ -21,7 +21,7 @@ const InputLabel = styled.div`
   }
   text-align: left;
   margin-bottom: 9px;
-`
+`;
 
 const MaxPrice = styled.div`
   height: 100px;
@@ -30,7 +30,7 @@ const MaxPrice = styled.div`
     width: 100%;
     display: none;
   }
-`
+`;
 
 const StyledButton = styled(Button)`
   color: white;
@@ -55,7 +55,7 @@ const StyledButton = styled(Button)`
     border: none;
     background: rgba(77, 0, 180, 0.58);
   }
-`
+`;
 const StyledSelect = styled(Select)`
   .ant-select-selection {
     background: rgba(255, 255, 255, 0.3);
@@ -90,9 +90,8 @@ const StyledSelect = styled(Select)`
 
   width: 100%;
   margin-bottom: 18px;
-`
-const StyledOption = styled(Select.Option)`
-`
+`;
+const StyledOption = styled(Select.Option)``;
 const StyledInput = styled(InputNumber)`
   width: 100%;
   background: rgba(255, 255, 255, 0.3);
@@ -107,20 +106,20 @@ const StyledInput = styled(InputNumber)`
   path {
     fill: white;
   }
-`
+`;
 const AmountLabel = styled.div`
   color: #fff;
   font-size: 14px;
   margin-top: 20px;
   text-align: left;
-`
+`;
 const AmountText = styled.div`
   color: #fff;
   font-size: 16px;
   text-align: left;
-`
+`;
 const ErrorMessage = styled.div`
-  color: #FFFFFF;
+  color: #ffffff;
   font-style: italic;
   font-weight: normal;
   font-size: 12px;
@@ -129,152 +128,200 @@ const ErrorMessage = styled.div`
   text-align: center;
 
   path {
-    fill: #FF9900;
+    fill: #ff9900;
   }
-`
+`;
 
-const toLetters = (num) => {
-    let mod = (num + 1) % 26
-    let pow = (num + 1) / 26 | 0
-    const out = mod ? String.fromCharCode(64 + mod) : (--pow, 'Z')
-    return pow ? toLetters(pow) + out : out
-}
+const handleMaxButtonClick = () => console.log("handle");
+
+const toLetters = num => {
+  let mod = (num + 1) % 26;
+  let pow = ((num + 1) / 26) | 0;
+  const out = mod ? String.fromCharCode(64 + mod) : (--pow, "Z");
+  return pow ? toLetters(pow) + out : out;
+};
 
 const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
   const options = orders.map((o, i) => (
     <StyledOption value={i}>
       {toLetters(i)} - {fromWei(o.price.toString())} ETH
     </StyledOption>
-  ))
+  ));
 
-  const { useCacheSend, drizzle } = useDrizzle()
-  const { send, status, transactions } = useCacheSend('ERC20Seller', 'buy')
+  const { useCacheSend, drizzle } = useDrizzle();
+  const { send, status, transactions } = useCacheSend("ERC20Seller", "buy");
   const drizzleState = useDrizzleState(drizzleState => {
-    return ({
+    return {
       drizzleStatusInitialized: drizzleState.drizzleStatus.initialized,
       web3Status: drizzleState.web3.status,
       networkID: drizzleState.web3.networkId
-    })
-  })
+    };
+  });
 
   useEffect(async () => {
-    if (status === 'pending') {
+    if (status === "pending") {
       // Get location data
-      const response = await fetch('https://api.ipdata.co/?api-key=ad85b3db1d157c96aadd74ba68cc4fd7ad817120b485fa84229829aa')
-      const responseJSON = await response.json()
+      const response = await fetch(
+        "https://api.ipdata.co/?api-key=ad85b3db1d157c96aadd74ba68cc4fd7ad817120b485fa84229829aa"
+      );
+      const responseJSON = await response.json();
       // Store users location
-      const uri = drizzleState.networkID === 1 ?
-        'https://8aoprv935h.execute-api.us-east-2.amazonaws.com/staging/token-sale' :
-        'https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/token-sale'
-      const network = drizzleState.networkID === 42 ? 'kovan' : undefined
+      const uri =
+        drizzleState.networkID === 1
+          ? "https://8aoprv935h.execute-api.us-east-2.amazonaws.com/staging/token-sale"
+          : "https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/token-sale";
+      const network = drizzleState.networkID === 42 ? "kovan" : undefined;
 
       fetch(uri, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify({
-          txHash: transactions[transactions.length-1].txHash,
+          txHash: transactions[transactions.length - 1].txHash,
           country: responseJSON.country_code || responseJSON.country_name,
           network
         })
-      })
+      });
     }
-  }, [status])
+  }, [status]);
 
-  const [ maxPriceIndex, setMaxPriceIndex ] = useState(0)
-  const [ ethToSend, setEthToSend ] = useState('0')
+  const [maxPriceIndex, setMaxPriceIndex] = useState(0);
+  const [ethToSend, setEthToSend] = useState("0");
 
-  let maxWei = orders[0] ? toBN(orders[0].amount).mul(toBN(orders[0].price)).div(toBN('1000000000000000000')) : 0
+  let maxWei = orders[0]
+    ? toBN(orders[0].amount)
+        .mul(toBN(orders[0].price))
+        .div(toBN("1000000000000000000"))
+    : 0;
   for (let i = 1; i <= maxPriceIndex; i++) {
-    maxWei = maxWei.add(toBN(orders[i].amount).mul(toBN(orders[i].price)).div(toBN('1000000000000000000')))
+    maxWei = maxWei.add(
+      toBN(orders[i].amount)
+        .mul(toBN(orders[i].price))
+        .div(toBN("1000000000000000000"))
+    );
   }
 
-  const setETHAmount = (amount) => {
-    if (!amount) amount = 0
-    if (Number(amount) < 0) amount = 0
-    let _weiAmount
+  const setETHAmount = amount => {
+    if (!amount) amount = 0;
+    if (Number(amount) < 0) amount = 0;
+    let _weiAmount;
     try {
-      _weiAmount = toWei(String(amount))
+      _weiAmount = toWei(String(amount));
     } catch (e) {
-      _weiAmount = toWei(String(0))
+      _weiAmount = toWei(String(0));
     }
 
-    if (toBN(_weiAmount).gt(maxWei)) _weiAmount = maxWei
+    if (toBN(_weiAmount).gt(maxWei)) _weiAmount = maxWei;
 
-    setEthToSend(_weiAmount.toString())
-  }
+    setEthToSend(_weiAmount.toString());
+  };
 
-  const maxPNK = (amount) => {
+  const maxPNK = amount => {
     // ETH
-    let _ethAmount = toBN(amount)
+    let _ethAmount = toBN(amount);
     // PNK
-    let pnkTotal = toBN(0)
+    let pnkTotal = toBN(0);
     // Index
-    let currentOrder = 0
+    let currentOrder = 0;
     while (_ethAmount.gt(toBN(0))) {
-      const _curETHAmount = toBN(orders[currentOrder].amount).mul(toBN(orders[currentOrder].price)).div(toBN('1000000000000000000'))
+      const _curETHAmount = toBN(orders[currentOrder].amount)
+        .mul(toBN(orders[currentOrder].price))
+        .div(toBN("1000000000000000000"));
       if (_ethAmount.lte(_curETHAmount)) {
-        pnkTotal = pnkTotal.add(_ethAmount.div(toBN(orders[currentOrder].price)).mul(toBN('1000000000000000000')))
+        pnkTotal = pnkTotal.add(
+          _ethAmount
+            .div(toBN(orders[currentOrder].price))
+            .mul(toBN("1000000000000000000"))
+        );
         // break out of loop
-        _ethAmount = toBN(0)
+        _ethAmount = toBN(0);
       } else {
-        pnkTotal = pnkTotal.add(toBN(orders[currentOrder].amount))
+        pnkTotal = pnkTotal.add(toBN(orders[currentOrder].amount));
         // Subtract amount
-        _ethAmount = _ethAmount.sub(_curETHAmount)
-        currentOrder++
+        _ethAmount = _ethAmount.sub(_curETHAmount);
+        currentOrder++;
       }
     }
 
-    return pnkTotal.toString()
-  }
+    return pnkTotal.toString();
+  };
 
-  const curPNK = maxPNK(ethToSend)
+  const curPNK = maxPNK(ethToSend);
 
   const buyOrder = async () => {
-    const _maxPriceConverted = toBN(orders[maxPriceIndex].price).mul(toBN(divisor))
+    const _maxPriceConverted = toBN(orders[maxPriceIndex].price).mul(
+      toBN(divisor)
+    );
 
-    await send(_maxPriceConverted.toString(),{
+    await send(_maxPriceConverted.toString(), {
       value: ethToSend
-    })
-    console.log(transactions)
-
-  }
+    });
+    console.log(transactions);
+  };
 
   return (
     <StyledPane>
-      <StyledText style={{'marginTop' : '30px'}}>{Translations[language].body.web3.title}</StyledText>
-        <Row>
-          <InputLabel>{Translations[language].body.web3.maxPriceLabel}</InputLabel>
-        </Row>
-        <Row>
-          <StyledSelect
-            defaultValue={0}
-            onChange={(v) => {setMaxPriceIndex(v)}}
-            className={'customSelect'}
+      <StyledText style={{ marginTop: "30px" }}>
+        {Translations[language].body.web3.title}
+      </StyledText>
+      <Row>
+        <InputLabel>
+          {Translations[language].body.web3.maxPriceLabel}
+        </InputLabel>
+      </Row>
+      <Row>
+        <StyledSelect
+          defaultValue={0}
+          onChange={v => {
+            setMaxPriceIndex(v);
+          }}
+          className={"customSelect"}
+        >
+          {options}
+        </StyledSelect>
+      </Row>
+      <Row>
+        <Col span={20}>
+          <InputLabel>
+            {Translations[language].body.web3.contributeLabel}
+          </InputLabel>
+        </Col>
+        <Col span={4} style={{ textAlign: "right" }}>
+          <Button
+            style={{
+              padding: "0",
+              background: "unset",
+              border: "unset",
+              textAlign: "right"
+            }}
+            onClick={handleMaxButtonClick}
           >
-            {options}
-          </StyledSelect>
-        </Row>
-        <Row>
-          <InputLabel>{Translations[language].body.web3.contributeLabel}</InputLabel>
-        </Row>
-        <Row>
-          <StyledInput
-            placeholder={`0 ETH`}
-            onChange={setETHAmount}
-            value={fromWei(ethToSend.toString())}
-          />
-        </Row>
-        <Row>
-          <AmountLabel>{Translations[language].body.web3.total}</AmountLabel>
-          <AmountText>{fromWei(curPNK.toString())} PNK</AmountText>
-        </Row>
-        <StyledButton onClick={buyOrder} disabled={disabled}>{Translations[language].body.web3.contribute}</StyledButton>
-        {
-          disabled ? (
-            <ErrorMessage><Icon style={{marginRight: '8px'}} type="exclamation-circle" /> {Translations[language].body.web3.unlock}</ErrorMessage>
-          ) : ''
-        }
+            Max
+          </Button>
+        </Col>
+      </Row>
+      <Row>
+        <StyledInput
+          placeholder={`0 ETH`}
+          onChange={setETHAmount}
+          value={fromWei(ethToSend.toString())}
+        />
+      </Row>
+      <Row>
+        <AmountLabel>{Translations[language].body.web3.total}</AmountLabel>
+        <AmountText>{fromWei(curPNK.toString())} PNK</AmountText>
+      </Row>
+      <StyledButton onClick={buyOrder} disabled={disabled}>
+        {Translations[language].body.web3.contribute}
+      </StyledButton>
+      {disabled ? (
+        <ErrorMessage>
+          <Icon style={{ marginRight: "8px" }} type="exclamation-circle" />{" "}
+          {Translations[language].body.web3.unlock}
+        </ErrorMessage>
+      ) : (
+        ""
+      )}
     </StyledPane>
-  )
-}
+  );
+};
 
-export default ByWeb3Browser
+export default ByWeb3Browser;
