@@ -10,8 +10,8 @@ import React, { useState } from 'react'
 import drizzle from './drizzle'
 import { register } from './service-worker'
 import styled from 'styled-components/macro'
-import media from "styled-media-query";
-import { default as Footer } from "@kleros/react-components/dist/footer";
+import media from 'styled-media-query'
+import { default as Footer } from '@kleros/react-components/dist/footer'
 import Translations from '../components/translations'
 
 const StyledLogoCol = styled(Col)`
@@ -25,7 +25,7 @@ const StyledLeftCol = styled(Col)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  ${media.lessThan("768px")`
+  ${media.lessThan('768px')`
     /* screen width is less than 768px (medium) */
     display: none;
   `}
@@ -86,13 +86,17 @@ const StyledSelect = styled(Select)`
 `
 
 const getDefaultLanguage = () => {
-  let language = ((window.navigator.userLanguage || window.navigator.language) || 'en').split('-')[0]
+  let language = (
+    window.navigator.userLanguage ||
+    window.navigator.language ||
+    'en'
+  ).split('-')[0]
   if (!Translations[language]) language = 'en'
   return language
 }
 
 export default () => {
-  const [ language, setLanguage ] = useState(getDefaultLanguage())
+  const [language, setLanguage] = useState(getDefaultLanguage())
 
   return (
     <>
@@ -110,10 +114,14 @@ export default () => {
               <Layout.Header>
                 <Row>
                   <StyledLogoCol lg={3} md={6} sm={12} xs={12}>
-                    <a href='https://kleros.io' style={{marginTop: '20px'}}><Logo /></a>
+                    <a href="https://kleros.io" style={{ marginTop: '20px' }}>
+                      <Logo />
+                    </a>
                   </StyledLogoCol>
                   <StyledLeftCol lg={3} md={10} offset={2}>
-                    <StyledText>{Translations[language].header.title}</StyledText>
+                    <StyledText>
+                      {Translations[language].header.title}
+                    </StyledText>
                   </StyledLeftCol>
                   <StyledColRight lg={10}>
                     <StyledText>
@@ -121,18 +129,28 @@ export default () => {
                     </StyledText>
                   </StyledColRight>
                   <StyledLanguagesCol lg={6} md={6} xs={12}>
-                    <StyledSelect defaultValue={language} onChange={val => {setLanguage(val)}}>
-                      <Select.Option value='en'>English</Select.Option>
-                      <Select.Option value='es'>Español</Select.Option>
-                      <Select.Option value='fr'>Français</Select.Option>
-                      <Select.Option value='pt'>Portugués</Select.Option>
+                    <StyledSelect
+                      defaultValue={language}
+                      onChange={val => {
+                        setLanguage(val)
+                      }}
+                    >
+                      <Select.Option value="en">English</Select.Option>
+                      <Select.Option value="es">Español</Select.Option>
+                      <Select.Option value="fr">Français</Select.Option>
+                      <Select.Option value="pt">Portugués</Select.Option>
+                      <Select.Option value="tr">Türkçe</Select.Option>
                     </StyledSelect>
                   </StyledLanguagesCol>
                 </Row>
               </Layout.Header>
               <StyledLayoutContent>
                 <Switch>
-                  <Route component={() => (<Home language={language} />)} exact path="/" />
+                  <Route
+                    component={() => <Home language={language} />}
+                    exact
+                    path="/"
+                  />
                 </Switch>
               </StyledLayoutContent>
               <Footer
