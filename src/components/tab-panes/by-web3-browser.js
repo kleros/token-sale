@@ -286,16 +286,21 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
         </Col>
       </Row>
       <Row>
-        <Col span={20}>
+        <Col span={17}>
           <StyledInput
             placeholder={`0 ETH`}
             onChange={setETHAmount}
             value={fromWei(ethToSend.toString())}
           />
         </Col>
-        <Col span={3} style={{ float: "right" }}>
+        <Col span={6} style={{ float: "right" }}>
           <StyledButton
-            style={{ boxSizing: "border-box", padding: "0", margin: 0 }}
+            style={{
+              boxSizing: "border-box",
+              padding: "0",
+              margin: 0,
+              fontSize: "1rem"
+            }}
           >
             Max
           </StyledButton>
