@@ -265,7 +265,7 @@ export default ({ language }) => {
                 />
               </Tabs.TabPane>
               <Tabs.TabPane key={2} tab={<StyledTabText>{Translations[language].body.web3Heading}</StyledTabText>}>
-                <ByWeb3Browser orders={sortedOrders} disabled={!account} divisor={divisor} language={language} />
+                <ByWeb3Browser orders={sortedOrders} disabled={!account || (!sortedOrders || !sortedOrders[0])} divisor={divisor} language={language} />
               </Tabs.TabPane>
             </Tabs>
           </StyledCardContainer>

@@ -188,7 +188,8 @@ export const Initializer = ({
   const drizzleState = useDrizzleState(drizzleState => {
     return ({
       drizzleStatusInitialized: drizzleState.drizzleStatus.initialized,
-      web3Status: drizzleState.web3.status
+      web3Status: drizzleState.web3.status,
+      networkID: drizzleState.web3.networkId
     })
   })
   const [timedOut, setTimedOut] = useState(false)

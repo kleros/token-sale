@@ -149,6 +149,13 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
 
   const { useCacheSend, drizzle } = useDrizzle()
   const { send, status, transactions } = useCacheSend('ERC20Seller', 'buy')
+  const drizzleState = useDrizzleState(drizzleState => {
+    return ({
+      drizzleStatusInitialized: drizzleState.drizzleStatus.initialized,
+      web3Status: drizzleState.web3.status,
+      networkID: drizzleState.web3.networkId
+    })
+  })
 
   useEffect(async () => {
     if (status === 'pending') {
@@ -156,12 +163,17 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
       const response = await fetch('https://api.ipdata.co/?api-key=ad85b3db1d157c96aadd74ba68cc4fd7ad817120b485fa84229829aa')
       const responseJSON = await response.json()
       // Store users location
-      fetch('https://8aoprv935h.execute-api.us-east-2.amazonaws.com/staging/token-sale', {
+      const uri = drizzleState.networkID === 1 ?
+        'https://8aoprv935h.execute-api.us-east-2.amazonaws.com/staging/token-sale' :
+        'https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/token-sale'
+      const network = drizzleState.networkID === 42 ? 'kovan' : undefined
+
+      fetch(uri, {
         method: 'PUT',
         body: JSON.stringify({
           txHash: transactions[transactions.length-1].txHash,
-          country: responseJSON.country_code,
-          network: 'kovan'
+          country: responseJSON.country_code || responseJSON.country_name,
+          network
         })
       })
     }
@@ -170,7 +182,7 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
   const [ maxPriceIndex, setMaxPriceIndex ] = useState(0)
   const [ ethToSend, setEthToSend ] = useState('0')
 
-  let maxWei = toBN(orders[0].amount).mul(toBN(orders[0].price)).div(toBN('1000000000000000000'))
+  let maxWei = orders[0] ? toBN(orders[0].amount).mul(toBN(orders[0].price)).div(toBN('1000000000000000000')) : 0
   for (let i = 1; i <= maxPriceIndex; i++) {
     maxWei = maxWei.add(toBN(orders[i].amount).mul(toBN(orders[i].price)).div(toBN('1000000000000000000')))
   }

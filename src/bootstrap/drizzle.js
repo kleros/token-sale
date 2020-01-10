@@ -7,7 +7,7 @@ const options = {
       ...ERC20Seller,
       networks: {
         42: { address: process.env.REACT_APP_KLEROS_TEST_SALE_ADDRESS },
-        1: { address: process.env.REACT_APP_KLEROS_ICO_ADDRESS }
+        1: { address: process.env.REACT_APP_KLEROS_SALE_ADDRESS }
       }
     }
   ],
