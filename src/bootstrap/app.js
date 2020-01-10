@@ -140,6 +140,7 @@ export default () => {
                       <Select.Option value="fr">Français</Select.Option>
                       <Select.Option value="pt">Portugués</Select.Option>
                       <Select.Option value="tr">Türkçe</Select.Option>
+                      <Select.Option value="ru">Русский</Select.Option>
                     </StyledSelect>
                   </StyledLanguagesCol>
                 </Row>

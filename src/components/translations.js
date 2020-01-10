@@ -241,5 +241,53 @@ export default {
       price: 'Fiyat (ETH)',
       amount: 'Miktar (PNK)'
     }
+  },
+  ru: {
+    header: {
+      learnMore: 'Узнайте больше о Kleros',
+      title: 'Продажа токенов Kleros',
+      dates: 'Начало: 11 января 2020. Окончание: 11 февраля 2020'
+    },
+    body: {
+      title: 'Продажа Kleros PNK',
+      contribute: 'Как совершить покупку',
+      basicHeading: 'Основное',
+      basic: {
+        title: (
+          <>
+            Отправьте ETH непосредственно по следующему адресу<sup>*</sup>
+          </>
+        ),
+        copyContrib: 'Скопировать адрес',
+        copied: 'Скопировано!',
+        disclaimer: (
+          <>
+            <sup>*</sup>Заказы с наименьшей ценой будут выполненными первыми.
+          </>
+        )
+      },
+      web3Heading: 'Web3',
+      web3: {
+        title: 'Осуществите транзакцию с помощью web3 кошелька',
+        maxPriceLabel: 'Какую максимальную цену вы хотите заплатить за PNK?',
+        contributeLabel: 'Сколько ETH вы хотите вложить?',
+        total: 'Всего',
+        contribute: 'Вложить',
+        unlock: 'Разблокируйте Metamask чтобы осуществить вложение'
+      },
+      totals: {
+        title:
+          'Всего 150 миллионов Пинакинов (PNK) будет продано в течение следующего месяца',
+        amountForSale: 'Количество на продажу',
+        totalSold: 'Продано',
+        remaining: 'Осталось продать'
+      }
+    },
+    orders: {
+      title: 'Заказы на Продажу',
+      sellOrder: 'Заказ на Продажу',
+      price: 'Цена (ETH)',
+      amount: 'Количество (PNK)'
+    }
   }
 }
