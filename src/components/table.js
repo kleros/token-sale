@@ -89,7 +89,7 @@ const columns = (language) => (
     dataIndex: 'amount',
     key: 'amount',
     render: (val) => (
-      fromWei(val.toString())
+      fromWei(val.toString()).toString().split('.')[0]
     )
   }]
 )
