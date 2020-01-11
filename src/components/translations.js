@@ -122,7 +122,7 @@ export default {
           </>
         )
       },
-      web3Heading: 'Web3',
+      web3Heading: 'Avançado',
       web3: {
         title: 'Faça a transação com uma carteira Web3',
         maxPriceLabel: 'Qual o preço máximo que você deseja pagar por PNK?',
@@ -133,7 +133,7 @@ export default {
       },
       totals: {
         title:
-          'Un total de 150 millones de PNK serán puestos en venta entre el 11 de enero y el 11 de febrero de 2020',
+          'Um total de 150 milhões de PNK serão colocados a venda entre 11 de janeiro e 11 de fevereiro de 2020',
         amountForSale: 'Quantidade à venda',
         totalSold: 'Total Vendido',
         remaining: 'Quantidade restante à venda'
