@@ -114,7 +114,7 @@ export default {
             Faça a contribuição enviando ETH para este endereço<sup>*</sup>
           </>
         ),
-        copyContrib: 'Copie o Endereço de Contribuição',
+        copyContrib: 'Copie o Endereço',
         copied: 'Copiado!',
         disclaimer: (
           <>
