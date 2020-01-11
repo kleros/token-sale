@@ -302,6 +302,8 @@ export default ({ language }) => {
             noMiddleLine={true}
             textMain={`${SALE_TOTAL.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} PNK`}
             textSecondary={""}
+            firstColSpan={24}
+            secondColSpan={0}
           />
           <PurchaseAmountBox saleTotal={SALE_TOTAL} language={language} />
         </Col>
