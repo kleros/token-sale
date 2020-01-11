@@ -14,7 +14,8 @@ export default {
       basic: {
         title: (
           <>
-            Send ETH directly to the following address<sup>*</sup>
+            Send ETH directly (don't use exchange wallets) to the following
+            address<sup>*</sup>
           </>
         ),
         copyContrib: 'Copy Contribution Address',
