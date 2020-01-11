@@ -1,5 +1,6 @@
 import { Row } from 'antd'
 import React from 'react'
+import { toBN, toWei, fromWei } from "web3-utils";
 import styled from 'styled-components'
 
 const GraphContainer = styled.div`
@@ -51,12 +52,17 @@ const SellOrdersGraph = ({ orders }) => {
     highPrice = orders[orders.length - 1].price
   }
 
+  let totalForSale = 0
+  orders.forEach(o => {
+    totalForSale += Number(fromWei(o.amount))
+  })
+
   const orderCols = orders.map((o, i) => {
     return (
       <div
         key={i}
         style={{
-          width: `${1/orders.length * 100}%`,
+          width: `${Number(fromWei(o.amount))/totalForSale * 100}%`,
           display: 'inline-block'
         }}
       >
