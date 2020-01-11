@@ -40,7 +40,7 @@ const AddressResponsive = styled(StyledValueText)`
   font-family: monospace;
 
   @media (max-width: 991px) {
-    font-size: 3vw;
+    font-size: 2.85vw;
   }
 `;
 
