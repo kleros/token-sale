@@ -1,8 +1,8 @@
-import { Card, Col, Row } from 'antd'
-import React from 'react'
-import styled from 'styled-components/macro'
+import { Card, Col, Row } from "antd";
+import React from "react";
+import styled from "styled-components/macro";
 
-import { StyledSubheading, StyledText } from './typography'
+import { StyledSubheading, StyledText } from "./typography";
 
 const StyledRow = styled(Row)`
   background: rgba(255, 255, 255, 0.08);
@@ -10,7 +10,7 @@ const StyledRow = styled(Row)`
   .ant-card {
     background: none;
   }
-`
+`;
 
 const StyledCard = styled(Card)`
   border: none;
@@ -23,23 +23,23 @@ const StyledCard = styled(Card)`
       padding: 0px;
     }
   }
-`
+`;
 
 const StyledCardMiddleLine = styled(StyledCard)`
   .ant-card-body {
     border-right: 1px solid white;
   }
-`
+`;
 
 const Heading = styled(StyledSubheading)`
   margin-bottom: 0px;
-`
+`;
 
 const Subtext = styled(StyledText)`
   font-size: 16px;
   opacity: 0.5;
   margin-top: -5px;
-`
+`;
 
 const InformationCardsBox = ({
   textMain,
@@ -51,7 +51,7 @@ const InformationCardsBox = ({
   secondColSpan
 }) => {
   return (
-    <div style={{ marginTop: '36px' }}>
+    <div style={{ marginTop: "36px" }}>
       <StyledRow>
         <Col span={firstColSpan}>
           {noMiddleLine ? (
@@ -74,7 +74,7 @@ const InformationCardsBox = ({
         </Col>
       </StyledRow>
     </div>
-  )
-}
+  );
+};
 
-export default InformationCardsBox
+export default InformationCardsBox;
