@@ -93,10 +93,12 @@ const columns = language => [
     title: Translations[language].orders.amount,
     dataIndex: 'amount',
     key: 'amount',
-    render: val =>
-      fromWei(val.toString())
+    render: (val, row) => {
+      return fromWei(val.toString())
         .toString()
         .split('.')[0]
+    }
+
   }
 ]
 

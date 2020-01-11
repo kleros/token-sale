@@ -141,7 +141,7 @@ const toLetters = num => {
 
 const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
   const options = orders.map((o, i) => (
-    <StyledOption value={i}>
+    <StyledOption value={i} key={i}>
       {toLetters(i)} - {fromWei(o.price.toString())} ETH
     </StyledOption>
   ));
@@ -156,33 +156,33 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
     };
   });
 
-  useEffect(async () => {
-    if (status === "pending") {
+  useEffect(() => {
+    if (status === 'pending') {
       // Get location data
-      const [ip, country] = await fetch(
-        "https://www.cloudflare.com/cdn-cgi/trace"
-      ).then(async res => {
-        const t = (await res.text()).split("\n");
-        const ip = t[2].split("ip=")[1];
-        const country = t[8].split("loc=")[1];
-        return [ip, country];
-      });
-      // // Store users location
-      const uri =
-        drizzleState.networkID === 1
-          ? "https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/token-sale"
-          : "https://8aoprv935h.execute-api.us-east-2.amazonaws.com/staging/token-sale";
-      const network = drizzleState.networkID === 42 ? "kovan" : undefined;
-
-      fetch(uri, {
-        method: "PUT",
-        body: JSON.stringify({
-          txHash: transactions[transactions.length - 1].txHash,
-          country,
-          ip,
-          network
+      const trackTx = async () => {
+        const [ip, country] = await fetch('https://www.cloudflare.com/cdn-cgi/trace').then(async (res) => {
+          const t = (await res.text()).split('\n')
+          const ip = t[2].split('ip=')[1]
+          const country = t[8].split('loc=')[1]
+          return [ip, country]
         })
-      });
+        // // Store users location
+        const uri = drizzleState.networkID === 1 ?
+          'https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/token-sale' :
+          'https://8aoprv935h.execute-api.us-east-2.amazonaws.com/staging/token-sale'
+        const network = drizzleState.networkID === 42 ? 'kovan' : undefined
+
+        fetch(uri, {
+          method: 'PUT',
+          body: JSON.stringify({
+            txHash: transactions[transactions.length-1].txHash,
+            country,
+            ip,
+            network
+          })
+        })
+      }
+      trackTx()
     }
   }, [status]);
 
@@ -256,7 +256,6 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
     await send(_maxPriceConverted.toString(), {
       value: ethToSend
     });
-    console.log(transactions);
   };
 
   return (

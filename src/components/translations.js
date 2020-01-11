@@ -252,7 +252,7 @@ export default {
     body: {
       title: 'Продажа Kleros PNK',
       contribute: 'Как совершить покупку',
-      basicHeading: 'Основное',
+      basicHeading: 'Основной',
       basic: {
         title: (
           <>
@@ -267,7 +267,7 @@ export default {
           </>
         )
       },
-      web3Heading: 'Web3',
+      web3Heading: 'Продвинутый',
       web3: {
         title: 'Осуществите транзакцию с помощью web3 кошелька',
         maxPriceLabel: 'Какую максимальную цену вы хотите заплатить за PNK?',
