@@ -256,7 +256,6 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
     await send(_maxPriceConverted.toString(), {
       value: ethToSend
     });
-    console.log(transactions);
   };
 
   return (
