@@ -43,16 +43,23 @@ const SellOrdersGraph = ({ orders }) => {
   let lowPrice
   let highPrice
   if (orders.length !== 0) {
+    while (!orders[orders.length - 1]) {
+      orders.pop()
+    }
+
     lowPrice = orders[0].price
     highPrice = orders[orders.length - 1].price
   }
 
   const orderCols = orders.map((o, i) => {
     return (
-      <div style={{
-        width: `${1/orders.length * 100}%`,
-        display: 'inline-block'
-      }}>
+      <div
+        key={i}
+        style={{
+          width: `${1/orders.length * 100}%`,
+          display: 'inline-block'
+        }}
+      >
         <SellOrderCol style={{
           height: `${parseInt(parseInt(((o.price - lowPrice) / (highPrice - lowPrice)) * 150))}px`,
           width: '100%'

@@ -183,6 +183,9 @@ export default ({ language }) => {
         .toNumber();
     });
 
+  // if a change has been made the new order might come in as undefined. remove it
+  if (sortedOrders && !sortedOrders[sortedOrders.length - 1]) sortedOrders.pop()
+
   // Parse bids to the table columns
   const columnData = [];
   if (
