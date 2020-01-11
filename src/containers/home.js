@@ -1,32 +1,32 @@
-import { Button, Col, Divider, Input, Radio, Row, Tabs } from 'antd'
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components/macro'
-import { toBN, fromWei, toWei } from 'web3-utils'
+import { Button, Col, Divider, Input, Radio, Row, Tabs } from "antd";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components/macro";
+import { toBN, fromWei, toWei } from "web3-utils";
 import {
   StyledHeading,
   StyledSubheading,
   StyledSubtext,
   StyledText,
   StyledValueText
-} from '../components/typography'
-import BreakLine from '../components/break-line'
-import InformationCardsBox from '../components/information-cards-box'
-import Table from '../components/table'
-import ByAddressPane from '../components/tab-panes/by-address'
-import ByWeb3Browser from '../components/tab-panes/by-web3-browser'
-import SecondsInSubsale from '../components/seconds-in-subsale'
-import PricePerPNK from '../components/price-per-pnk'
-import SellOrdersGraph from '../components/sell-orders-graph'
-import PurchaseAmountBox from '../components/purchase-amount-box.js'
-import _404 from '../components/_404.js'
-import { useDrizzle, useDrizzleState } from '../temp/drizzle-react-hooks'
-import { ethToWei, truncateDecimalString, weiToEth } from '../utils/numbers'
-import { ReactComponent as RightArrow } from '../assets/images/arrow-right-solid.svg'
-import { ReactComponent as Clock } from '../assets/images/clock-regular.svg'
-import { ReactComponent as Accepted } from '../assets/images/check-solid.svg'
-import { ReactComponent as Rejected } from '../assets/images/times-solid.svg'
-import HeaderImg from '../assets/images/header.png'
-import Translations from '../components/translations'
+} from "../components/typography";
+import BreakLine from "../components/break-line";
+import InformationCardsBox from "../components/information-cards-box";
+import Table from "../components/table";
+import ByAddressPane from "../components/tab-panes/by-address";
+import ByWeb3Browser from "../components/tab-panes/by-web3-browser";
+import SecondsInSubsale from "../components/seconds-in-subsale";
+import PricePerPNK from "../components/price-per-pnk";
+import SellOrdersGraph from "../components/sell-orders-graph";
+import PurchaseAmountBox from "../components/purchase-amount-box.js";
+import _404 from "../components/_404.js";
+import { useDrizzle, useDrizzleState } from "../temp/drizzle-react-hooks";
+import { ethToWei, truncateDecimalString, weiToEth } from "../utils/numbers";
+import { ReactComponent as RightArrow } from "../assets/images/arrow-right-solid.svg";
+import { ReactComponent as Clock } from "../assets/images/clock-regular.svg";
+import { ReactComponent as Accepted } from "../assets/images/check-solid.svg";
+import { ReactComponent as Rejected } from "../assets/images/times-solid.svg";
+import HeaderImg from "../assets/images/header.png";
+import Translations from "../components/translations";
 
 const StyledCardContainer = styled.div`
   margin-top: 25px;
@@ -77,12 +77,12 @@ const StyledCardContainer = styled.div`
       }
     }
   }
-`
+`;
 
 const StyledTabText = styled(StyledText)`
   font-size: 14px;
   font-weight: 500;
-`
+`;
 
 const StyledSearch = styled(Input.Search)`
   .ant-input {
@@ -104,84 +104,87 @@ const StyledSearch = styled(Input.Search)`
   .ant-input-search.ant-input-search-enter-button {
     border: none;
   }
-`
+`;
 
 const StyledAccepted = styled(Accepted)`
   color: #009aff;
   height: 20px;
-`
+`;
 
 const StyledRejected = styled(Rejected)`
   color: red;
   height: 20px;
-`
+`;
 
 const StyledPending = styled(Clock)`
   color: white;
   height: 20px;
-`
+`;
 
-const SALE_TOTAL = '15000000'
+const SALE_TOTAL = "150000000";
 
 export default ({ language }) => {
-  const { useCacheCall, useCacheEvents, drizzle } = useDrizzle()
+  const { useCacheCall, useCacheEvents, drizzle } = useDrizzle();
   const drizzleState = useDrizzleState(drizzleState => ({
     loaded: drizzleState.drizzleStatus.initialized,
     account: drizzleState.accounts[0],
     networkID: drizzleState.web3.networkId
-  }))
+  }));
 
-  if (!drizzleState.loaded) return (
-    <div>loading...</div>
-  )
+  if (!drizzleState.loaded) return <div>loading...</div>;
 
-  if (drizzleState.networkID && drizzleState.networkID !== 1) return (
-    <_404 />
-  )
+  if (drizzleState.networkID && drizzleState.networkID !== 1) return <_404 />;
 
-  const [account, setAccount] = useState(drizzleState.account)
+  const [account, setAccount] = useState(drizzleState.account);
 
   // Set account when drizzle state loads
   useEffect(() => {
-    setAccount(drizzleState.account)
-  }, [drizzleState.account])
+    setAccount(drizzleState.account);
+  }, [drizzleState.account]);
 
-  let tokensForSale
-  let numberOfSubsales
-  let currentSubsaleNumber
-  let valuationAndCutOff
-  let startTime
-  let secondsPerSubsale
-  let bidIDs = []
+  let tokensForSale;
+  let numberOfSubsales;
+  let currentSubsaleNumber;
+  let valuationAndCutOff;
+  let startTime;
+  let secondsPerSubsale;
+  let bidIDs = [];
 
   const amountForSaleToday =
     numberOfSubsales &&
     tokensForSale &&
-    toBN(tokensForSale).div(toBN(numberOfSubsales))
+    toBN(tokensForSale).div(toBN(numberOfSubsales));
 
   // Fetch all data for users bids
-  const bids = {}
-  const divisor = useCacheCall('ERC20Seller', 'divisor')
-  const normalizedOrders = useCacheCall(['ERC20Seller'], call => {
-    const openOrderIDs = call('ERC20Seller', 'getOpenOrders')
+  const bids = {};
+  const divisor = useCacheCall("ERC20Seller", "divisor");
+  const normalizedOrders = useCacheCall(["ERC20Seller"], call => {
+    const openOrderIDs = call("ERC20Seller", "getOpenOrders");
 
     if (openOrderIDs && divisor) {
       return openOrderIDs.map(_id => {
-        const _order = call('ERC20Seller', 'orders', _id)
+        const _order = call("ERC20Seller", "orders", _id);
         if (_order) {
-          const _orderCopy = { ..._order }
-          _orderCopy.price = toBN(_order.price).mul(toBN('1000000000000000000')).div(toBN(divisor)).toString()
-          return _orderCopy
+          const _orderCopy = { ..._order };
+          _orderCopy.price = toBN(_order.price)
+            .mul(toBN("1000000000000000000"))
+            .div(toBN(divisor))
+            .toString();
+          return _orderCopy;
         }
-      })
+      });
     }
-  })
-  const sortedOrders = normalizedOrders && normalizedOrders.sort((a, b) => {
-    return toBN(a.price).sub(toBN(b.price)).toNumber()
-  })
+  });
+  const sortedOrders =
+    normalizedOrders &&
+    normalizedOrders.sort((a, b) => {
+      return toBN(a.price)
+        .sub(toBN(b.price))
+        .toNumber();
+    });
 
   // Parse bids to the table columns
-  const columnData = []
+  const columnData = [];
   if (
     !bids.loading &&
     !bids.loadingValAndCutOffs &&
@@ -190,33 +193,33 @@ export default ({ language }) => {
     secondsPerSubsale
   )
     for (let i = 0; i < bids.bids.length; i++) {
-      const _bid = bids.bids[i]
+      const _bid = bids.bids[i];
       const bidColData = {
         amount: null,
         price: null,
         date: null,
         status: null
-      }
+      };
 
-      const valAndCutOff = bids.valAndCutOffForSubsale[_bid.subsaleNumber]
+      const valAndCutOff = bids.valAndCutOffForSubsale[_bid.subsaleNumber];
       // currentCutOffBidMaxValuation will come back as 0 if all bids are accepted
       const currentCutOffBidMaxValuation =
-        valAndCutOff.currentCutOffBidMaxValuation
+        valAndCutOff.currentCutOffBidMaxValuation;
 
-      let contrib = 0
+      let contrib = 0;
       if (toBN(_bid.maxValuation).gt(toBN(currentCutOffBidMaxValuation)))
-        contrib = _bid.contrib
+        contrib = _bid.contrib;
       else if (toBN(_bid.maxValuation).eq(toBN(currentCutOffBidMaxValuation)))
         if (_bid.bidID === valAndCutOff.currentCutOffBidID)
-          contrib = valAndCutOff.currentCutOffBidContrib
+          contrib = valAndCutOff.currentCutOffBidContrib;
         else if (_bid.bidID > valAndCutOff.currentCutOffBidID)
-          contrib = _bid.contrib
+          contrib = _bid.contrib;
 
       if (contrib > 0)
         if (currentSubsaleNumber === _bid.subsaleNumber)
-          bidColData.status = <StyledPending />
-        else bidColData.status = <StyledAccepted />
-      else bidColData.status = <StyledRejected />
+          bidColData.status = <StyledPending />;
+        else bidColData.status = <StyledAccepted />;
+      else bidColData.status = <StyledRejected />;
 
       bidColData.amount = truncateDecimalString(
         weiToEth(
@@ -226,19 +229,19 @@ export default ({ language }) => {
             .toString()
         ),
         0
-      )
+      );
 
-      bidColData.price = weiToEth(bids.bids[i].contrib.toString())
+      bidColData.price = weiToEth(bids.bids[i].contrib.toString());
 
       // calcuate start date
-      const _startTime = toBN(startTime)
-      const _subsaleNumberMultiplyer = toBN(_bid.subsaleNumber - 1)
-      const _secondsPerSubsale = toBN(secondsPerSubsale)
+      const _startTime = toBN(startTime);
+      const _subsaleNumberMultiplyer = toBN(_bid.subsaleNumber - 1);
+      const _secondsPerSubsale = toBN(secondsPerSubsale);
       bidColData.date = _startTime
         .add(_subsaleNumberMultiplyer.mul(_secondsPerSubsale))
-        .toNumber()
+        .toNumber();
 
-      columnData[i] = bidColData
+      columnData[i] = bidColData;
     }
 
   return (
@@ -247,60 +250,81 @@ export default ({ language }) => {
         <img src={HeaderImg} />
         <StyledHeading>{Translations[language].body.title}</StyledHeading>
       </Row>
-      <Row style={{ marginBottom: '76px', marginTop: '-25px' }}>
+      <Row style={{ marginBottom: "76px", marginTop: "-25px" }}>
         <Col lg={9}>
-          <StyledSubheading>{Translations[language].body.contribute}</StyledSubheading>
+          <StyledSubheading>
+            {Translations[language].body.contribute}
+          </StyledSubheading>
           <StyledCardContainer>
             <Tabs type="card">
-              <Tabs.TabPane key={1} tab={<StyledTabText>{Translations[language].body.basicHeading}</StyledTabText>}>
+              <Tabs.TabPane
+                key={1}
+                tab={
+                  <StyledTabText>
+                    {Translations[language].body.basicHeading}
+                  </StyledTabText>
+                }
+              >
                 <ByAddressPane
                   language={language}
                   contributionAddress={
-                    drizzle.contracts['ERC20Seller']
-                      ? drizzle.contracts['ERC20Seller'].address
-                      : 'loading...'
+                    drizzle.contracts["ERC20Seller"]
+                      ? drizzle.contracts["ERC20Seller"].address
+                      : "loading..."
                   }
                 />
               </Tabs.TabPane>
-              <Tabs.TabPane key={2} tab={<StyledTabText>{Translations[language].body.web3Heading}</StyledTabText>}>
-                <ByWeb3Browser orders={sortedOrders} disabled={!account || (!sortedOrders || !sortedOrders[0])} divisor={divisor} language={language} />
+              <Tabs.TabPane
+                key={2}
+                tab={
+                  <StyledTabText>
+                    {Translations[language].body.web3Heading}
+                  </StyledTabText>
+                }
+              >
+                <ByWeb3Browser
+                  orders={sortedOrders}
+                  disabled={!account || (!sortedOrders || !sortedOrders[0])}
+                  divisor={divisor}
+                  language={language}
+                />
               </Tabs.TabPane>
             </Tabs>
           </StyledCardContainer>
         </Col>
         <Col lg={13} offset={1}>
-          <BreakLine style={{marginTop: '95px'}}/>
-          <StyledText style={{ marginBottom: '18px', marginTop: '18px' }}>
+          <BreakLine style={{ marginTop: "95px" }} />
+          <StyledText style={{ marginBottom: "18px", marginTop: "18px" }}>
             {Translations[language].body.totals.title}
           </StyledText>
           <InformationCardsBox
             subtextMain={Translations[language].body.totals.amountForSale}
             noMiddleLine={true}
-            textMain={
-              `${SALE_TOTAL.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} PNK`
-            }
-            textSecondary={
-              ''
-            }
+            textMain={`${SALE_TOTAL.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} PNK`}
+            textSecondary={""}
           />
-        <PurchaseAmountBox
-          saleTotal={SALE_TOTAL}
-          language={language}
-        />
+          <PurchaseAmountBox saleTotal={SALE_TOTAL} language={language} />
         </Col>
       </Row>
       <BreakLine />
-      <Row style={{ margin: '45px 0px' }}>
+      <Row style={{ margin: "45px 0px" }}>
         <Col lg={9}>
-          <StyledSubheading>{Translations[language].orders.title}</StyledSubheading>
+          <StyledSubheading>
+            {Translations[language].orders.title}
+          </StyledSubheading>
         </Col>
       </Row>
-      <SellOrdersGraph orders={sortedOrders && sortedOrders[0] ? sortedOrders : []} />
+      <SellOrdersGraph
+        orders={sortedOrders && sortedOrders[0] ? sortedOrders : []}
+      />
       <Row>
         <Col lg={24}>
-          <Table language={language} columnData={sortedOrders && sortedOrders[0] ? sortedOrders : []} />
+          <Table
+            language={language}
+            columnData={sortedOrders && sortedOrders[0] ? sortedOrders : []}
+          />
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
