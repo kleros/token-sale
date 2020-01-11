@@ -46,27 +46,27 @@ const InformationCardsBox = ({
   subtextMain,
   textSecondary,
   subtextSecondary,
-  noMiddleLine
+  noMiddleLine,
+  firstColSpan,
+  secondColSpan
 }) => {
   return (
-    <div style={{"marginTop": "36px"}}>
+    <div style={{ marginTop: '36px' }}>
       <StyledRow>
-        <Col span={12}>
-          {
-            noMiddleLine ? (
-              <StyledCard>
-                <Heading>{textMain}</Heading>
-                <Subtext>{subtextMain}</Subtext>
-              </StyledCard>
-            ) : (
-              <StyledCardMiddleLine>
-                <Heading>{textMain}</Heading>
-                <Subtext>{subtextMain}</Subtext>
-              </StyledCardMiddleLine>
-            )
-          }
+        <Col span={firstColSpan}>
+          {noMiddleLine ? (
+            <StyledCard>
+              <Heading>{textMain}</Heading>
+              <Subtext>{subtextMain}</Subtext>
+            </StyledCard>
+          ) : (
+            <StyledCardMiddleLine>
+              <Heading>{textMain}</Heading>
+              <Subtext>{subtextMain}</Subtext>
+            </StyledCardMiddleLine>
+          )}
         </Col>
-        <Col span={12}>
+        <Col span={secondColSpan}>
           <StyledCard>
             <Heading>{textSecondary}</Heading>
             <Subtext>{subtextSecondary}</Subtext>

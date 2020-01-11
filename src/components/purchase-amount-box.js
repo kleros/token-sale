@@ -4,9 +4,11 @@ import { useDrizzle } from '../temp/drizzle-react-hooks'
 import InformationCardsBox from './information-cards-box'
 import Translations from './translations'
 
-export default ({saleTotal, language}) => {
+export default ({ saleTotal, language }) => {
   const { useCacheEvents } = useDrizzle()
-  const purchaseEvents = useCacheEvents('ERC20Seller', 'TokenPurchase', { fromBlock: 0 })
+  const purchaseEvents = useCacheEvents('ERC20Seller', 'TokenPurchase', {
+    fromBlock: 0
+  })
 
   let purchaseAmount = toBN(0)
   if (purchaseEvents) {
@@ -19,8 +21,22 @@ export default ({saleTotal, language}) => {
     <InformationCardsBox
       subtextMain={Translations[language].body.totals.totalSold}
       subtextSecondary={Translations[language].body.totals.remaining}
-      textMain={`${Number(fromWei(purchaseAmount.toString())).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} PNK`}
-      textSecondary={`${Number(fromWei(toBN(toWei(saleTotal.toString())).sub(toBN(purchaseAmount)).toString()).toString()).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} PNK`}
+      textMain={`${Number(fromWei(purchaseAmount.toString()))
+        .toFixed(0)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} PNK`}
+      textSecondary={`${Number(
+        fromWei(
+          toBN(toWei(saleTotal.toString()))
+            .sub(toBN(purchaseAmount))
+            .toString()
+        ).toString()
+      )
+        .toFixed(0)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} PNK`}
+      firstColSpan={12}
+      secondColSpan={12}
     />
   )
 }
