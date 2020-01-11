@@ -35,11 +35,12 @@ const StyledButton = styled(Button)`
 `;
 
 const AddressResponsive = styled(StyledValueText)`
-  font-size: 1vw;
+  font-size: 1.15vw;
   margin-top: 10px;
+  font-family: monospace;
 
   @media (max-width: 991px) {
-    font-size: 14px;
+    font-size: 3vw;
   }
 `;
 
