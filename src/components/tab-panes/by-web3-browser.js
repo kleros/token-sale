@@ -168,8 +168,8 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
       })
       // // Store users location
       const uri = drizzleState.networkID === 1 ?
-        'https://8aoprv935h.execute-api.us-east-2.amazonaws.com/staging/token-sale' :
-        'https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/token-sale'
+        'https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/token-sale' :
+        'https://8aoprv935h.execute-api.us-east-2.amazonaws.com/staging/token-sale'
       const network = drizzleState.networkID === 42 ? 'kovan' : undefined
 
       fetch(uri, {
