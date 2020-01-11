@@ -63,8 +63,8 @@ export default {
       basic: {
         title: (
           <>
-            Envoyez vos ETH directement à l'adresse suivante<sup>*</sup>.
-            Mettre au moins 300 000 unités de gas.
+            Envoyez vos ETH directement à l'adresse suivante<sup>*</sup>. Mettre
+            au moins 300 000 unités de gas.
           </>
         ),
         copyContrib: "Copier l'adresse",
@@ -121,7 +121,8 @@ export default {
         copied: 'Copiado!',
         disclaimer: (
           <>
-            <sup>*</sup>A contribuição preenche os pedidos mais baratos primeiro.
+            <sup>*</sup>A contribuição preenche os pedidos mais baratos
+            primeiro.
           </>
         )
       },
@@ -162,8 +163,8 @@ export default {
       basic: {
         title: (
           <>
-            Enviar ETH directamente a la siguiente dirección<sup>*</sup>.
-            Usar al menos 300 000 unidades de gas
+            Enviar ETH directamente a la siguiente dirección<sup>*</sup>. Usar
+            al menos 300 000 unidades de gas
           </>
         ),
         copyContrib: 'Copiar Dirección',
@@ -210,8 +211,8 @@ export default {
       basic: {
         title: (
           <>
-            Bu adrese ETH göndermeniz yeterli<sup>*</sup>.
-            Lütfen en az 300 000 gaz sağlayın
+            Bu adrese ETH göndermeniz yeterli<sup>*</sup>. Lütfen en az 300 000
+            gaz sağlayın
           </>
         ),
         copyContrib: 'Adresi Kopyala',
@@ -294,6 +295,56 @@ export default {
       sellOrder: 'Заказ на Продажу',
       price: 'Цена (ETH)',
       amount: 'Количество (PNK)'
+    }
+  },
+  kr: {
+    header: {
+      learnMore: '클레로스에 대해 더 알아보기',
+      title: '클레로스 토큰 판매',
+      dates: '개시일: 2020년 1월 11일 (UTC+0) 종료일: 2020년 2월 11일 (UTC+0)'
+    },
+
+    body: {
+      title: '클레로스 PNK 판매',
+      contribute: '구매 방식',
+      basicHeading: '단순 방식',
+      basic: {
+        title: (
+          <>
+            다음의 주소에 ETH를 직접 전송합니다. (거래소 지갑이 아닌 개인 지갑을
+            사용해주세요) <sup>*</sup>. 최소 300,000 개의 가스를 제공하십시오
+          </>
+        ),
+        copyContrib: '구매 주소 복사',
+        copied: '복사 완료!',
+        disclaimer: (
+          <>
+            <sup>*</sup>가장 낮은 가격 대의 주문부터 먼저 체결됩니다.
+          </>
+        )
+      },
+      web3Heading: '심화 방식',
+      web3: {
+        title: '웹3 지갑으로 전송합니다.',
+        maxPriceLabel: 'PNK 구매 가격 선택',
+        contributeLabel: 'ETH 전송량?',
+        total: '총액',
+        contribute: '전송',
+        unlock: '전송을 위해 MetaMask에 접속해주세요.'
+      },
+      totals: {
+        title:
+          '2020년 1월 11일부터 2020년 2월 11일까지 1억 5천만개의 PNK가 판매될 것입니다.',
+        amountForSale: '총 판매 예정량',
+        totalSold: '현재까지의 판매량',
+        remaining: '남은 판매량'
+      }
+    },
+    orders: {
+      title: '판매 주문',
+      sellOrder: '판매 주문',
+      price: '가격 (ETH)',
+      amount: '양 (PNK)'
     }
   }
 }

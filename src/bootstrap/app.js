@@ -141,6 +141,7 @@ export default () => {
                       <Select.Option value="pt">Português</Select.Option>
                       <Select.Option value="tr">Türkçe</Select.Option>
                       <Select.Option value="ru">Русский</Select.Option>
+                      <Select.Option value="kr">한국어</Select.Option>
                     </StyledSelect>
                   </StyledLanguagesCol>
                 </Row>
