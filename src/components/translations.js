@@ -201,7 +201,7 @@ export default {
     },
     body: {
       title: 'Kleros PNK Satışı',
-      contribute: 'Satış Paneli',
+      contribute: 'PNK Satın Al',
       basicHeading: 'Basit',
       basic: {
         title: (
@@ -217,7 +217,7 @@ export default {
           </>
         )
       },
-      web3Heading: 'Web3',
+      web3Heading: 'Gelişmiş',
       web3: {
         title: 'Web3 cüzdanınız ile bir işlem yapın',
         maxPriceLabel:
