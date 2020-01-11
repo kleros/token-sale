@@ -57,12 +57,12 @@ export default {
     },
     body: {
       title: 'Vente de PNK Kleros',
-      contribute: 'Comment contribuer',
+      contribute: 'Comment Contribuer',
       basicHeading: 'Méthode Simple',
       basic: {
         title: (
           <>
-            Envoyez vos ETH directement à l adresse suivante<sup>*</sup>
+            Envoyez vos ETH directement à l\'adresse suivante<sup>*</sup>
           </>
         ),
         copyContrib: "Copier l'adresse",
