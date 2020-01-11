@@ -18,6 +18,7 @@ import SecondsInSubsale from '../components/seconds-in-subsale'
 import PricePerPNK from '../components/price-per-pnk'
 import SellOrdersGraph from '../components/sell-orders-graph'
 import PurchaseAmountBox from '../components/purchase-amount-box.js'
+import _404 from '../components/_404.js'
 import { useDrizzle, useDrizzleState } from '../temp/drizzle-react-hooks'
 import { ethToWei, truncateDecimalString, weiToEth } from '../utils/numbers'
 import { ReactComponent as RightArrow } from '../assets/images/arrow-right-solid.svg'
@@ -126,11 +127,16 @@ export default ({ language }) => {
   const { useCacheCall, useCacheEvents, drizzle } = useDrizzle()
   const drizzleState = useDrizzleState(drizzleState => ({
     loaded: drizzleState.drizzleStatus.initialized,
-    account: drizzleState.accounts[0]
+    account: drizzleState.accounts[0],
+    networkID: drizzleState.web3.networkId
   }))
 
   if (!drizzleState.loaded) return (
     <div>loading...</div>
+  )
+
+  if (drizzleState.networkID && drizzleState.networkID !== 1) return (
+    <_404 />
   )
 
   const [account, setAccount] = useState(drizzleState.account)
