@@ -65,7 +65,7 @@ export default {
             Envoyez vos ETH directement à l adresse suivante<sup>*</sup>
           </>
         ),
-        copyContrib: "Copier l'adresse de contribution",
+        copyContrib: "Copier l'adresse",
         copied: 'Copiée !',
         disclaimer: (
           <>
