@@ -35,7 +35,7 @@ const StyledButton = styled(Button)`
 `;
 
 const AddressResponsive = styled(StyledValueText)`
-  font-size: 1.15vw;
+  font-size: 1.05vw;
   margin-top: 10px;
   font-family: monospace;
 
