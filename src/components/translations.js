@@ -58,7 +58,7 @@ export default {
     body: {
       title: 'Vente de PNK Kleros',
       contribute: 'Comment contribuer',
-      basicHeading: 'Méthode simple',
+      basicHeading: 'Méthode Simple',
       basic: {
         title: (
           <>
@@ -73,7 +73,7 @@ export default {
           </>
         )
       },
-      web3Heading: 'Méthode Web3',
+      web3Heading: 'Méthode Avancée',
       web3: {
         title: 'Faire une transaction depuis un porte-monnaie Web3',
         maxPriceLabel:
