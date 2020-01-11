@@ -15,7 +15,7 @@ export default {
         title: (
           <>
             Send ETH directly (don't use exchange wallets) to the following
-            address<sup>*</sup>
+            address<sup>*</sup>. Please provide at least 300 000 gas.
           </>
         ),
         copyContrib: 'Copy Contribution Address',
@@ -63,7 +63,8 @@ export default {
       basic: {
         title: (
           <>
-            Envoyez vos ETH directement à l'adresse suivante<sup>*</sup>
+            Envoyez vos ETH directement à l'adresse suivante<sup>*</sup>.
+            Mettre au moins 300 000 unités de gas.
           </>
         ),
         copyContrib: "Copier l'adresse",
@@ -112,14 +113,15 @@ export default {
       basic: {
         title: (
           <>
-            Faça a contribuição enviando ETH para este endereço<sup>*</sup>
+            Faça a contribuição enviando ETH para este endereço<sup>*</sup>.
+            Forneça pelo menos 300 000 gas.
           </>
         ),
         copyContrib: 'Copie o Endereço',
         copied: 'Copiado!',
         disclaimer: (
           <>
-            <sup>*</sup>A contribuição preenche os pedidos mais baratos primeiro
+            <sup>*</sup>A contribuição preenche os pedidos mais baratos primeiro.
           </>
         )
       },
@@ -160,7 +162,8 @@ export default {
       basic: {
         title: (
           <>
-            Enviar ETH directamente a la siguiente dirección<sup>*</sup>
+            Enviar ETH directamente a la siguiente dirección<sup>*</sup>.
+            Usar al menos 300 000 unidades de gas
           </>
         ),
         copyContrib: 'Copiar Dirección',
@@ -207,7 +210,8 @@ export default {
       basic: {
         title: (
           <>
-            Bu adrese ETH göndermeniz yeterli<sup>*</sup>
+            Bu adrese ETH göndermeniz yeterli<sup>*</sup>.
+            Lütfen en az 300 000 gaz sağlayın
           </>
         ),
         copyContrib: 'Adresi Kopyala',
@@ -256,7 +260,8 @@ export default {
       basic: {
         title: (
           <>
-            Отправьте ETH непосредственно по следующему адресу<sup>*</sup>
+            Отправьте ETH непосредственно по следующему адресу<sup>*</sup>.
+            Пожалуйста, предоставьте не менее 300 000 газов.
           </>
         ),
         copyContrib: 'Скопировать адрес',
