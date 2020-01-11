@@ -137,12 +137,12 @@ export const DrizzleProvider = ({ children, drizzle }) => {
           contract
             .getPastEvents(eventName, eventOptions)
             .then(pastEvents => mounted && setEvents(pastEvents))
-          // const listener = drizzle.contracts[contractName].events[eventName]({
-          //   ...eventOptions,
-          //   fromBlock: 'latest'
-          // }).on('data', event => setEvents(events => [...events, event]))
+          const listener = drizzle.contracts[contractName].events[eventName]({
+            ...eventOptions,
+            fromBlock: 'latest'
+          }).on('data', event => setEvents(events => [...events, event]))
           return () => {
-            // listener.unsubscribe()
+            listener.unsubscribe()
             mounted = false
           }
         },

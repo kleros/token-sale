@@ -9,8 +9,8 @@ export default {
     },
     body: {
       title: 'Kleros PNK Sale',
-      contribute: 'How to Contribute',
-      basicHeading: 'Basic',
+      contribute: 'How to Buy',
+      basicHeading: 'Simple',
       basic: {
         title: (
           <>
@@ -25,7 +25,7 @@ export default {
           </>
         )
       },
-      web3Heading: 'Web3',
+      web3Heading: 'Advanced',
       web3: {
         title: 'Make a transaction with a web3 wallet',
         maxPriceLabel: "What's the max price you want to pay per PNK?",

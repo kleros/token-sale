@@ -71,6 +71,10 @@ const StyledTable = styled(Table)`
       }
     }
   }
+
+  .ant-table::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 const columns = language => [

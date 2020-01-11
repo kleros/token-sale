@@ -160,9 +160,13 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
   useEffect(async () => {
     if (status === 'pending') {
       // Get location data
-      const response = await fetch('https://api.ipdata.co/?api-key=ad85b3db1d157c96aadd74ba68cc4fd7ad817120b485fa84229829aa')
-      const responseJSON = await response.json()
-      // Store users location
+      const [ip, country] = await fetch('https://www.cloudflare.com/cdn-cgi/trace').then(async (res) => {
+        const t = (await res.text()).split('\n')
+        const ip = t[2].split('ip=')[1]
+        const country = t[8].split('loc=')[1]
+        return [ip, country]
+      })
+      // // Store users location
       const uri = drizzleState.networkID === 1 ?
         'https://8aoprv935h.execute-api.us-east-2.amazonaws.com/staging/token-sale' :
         'https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/token-sale'
@@ -172,7 +176,8 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
         method: 'PUT',
         body: JSON.stringify({
           txHash: transactions[transactions.length-1].txHash,
-          country: responseJSON.country_code || responseJSON.country_name,
+          country,
+          ip,
           network
         })
       })
@@ -197,8 +202,6 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
       _weiAmount = toWei(String(0))
     }
 
-    if (toBN(_weiAmount).gt(maxWei)) _weiAmount = maxWei
-
     setEthToSend(_weiAmount.toString())
   }
 
@@ -209,7 +212,8 @@ const ByWeb3Browser = ({ orders, divisor, disabled, language }) => {
     let pnkTotal = toBN(0)
     // Index
     let currentOrder = 0
-    while (_ethAmount.gt(toBN(0))) {
+    while (_ethAmount.gt(toBN(0)) && currentOrder <= maxPriceIndex) {
+      if (!orders[currentOrder]) break
       const _curETHAmount = toBN(orders[currentOrder].amount).mul(toBN(orders[currentOrder].price)).div(toBN('1000000000000000000'))
       if (_ethAmount.lte(_curETHAmount)) {
         pnkTotal = pnkTotal.add(_ethAmount.div(toBN(orders[currentOrder].price)).mul(toBN('1000000000000000000')))

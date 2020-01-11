@@ -17,6 +17,7 @@ import ByWeb3Browser from '../components/tab-panes/by-web3-browser'
 import SecondsInSubsale from '../components/seconds-in-subsale'
 import PricePerPNK from '../components/price-per-pnk'
 import SellOrdersGraph from '../components/sell-orders-graph'
+import PurchaseAmountBox from '../components/purchase-amount-box.js'
 import { useDrizzle, useDrizzleState } from '../temp/drizzle-react-hooks'
 import { ethToWei, truncateDecimalString, weiToEth } from '../utils/numbers'
 import { ReactComponent as RightArrow } from '../assets/images/arrow-right-solid.svg'
@@ -173,15 +174,6 @@ export default ({ language }) => {
     return toBN(a.price).sub(toBN(b.price)).toNumber()
   })
 
-  const purchaseEvents = useCacheEvents('ERC20Seller', 'TokenPurchase', { fromBlock: 0 })
-
-  let purchaseAmount = toBN(0)
-  if (purchaseEvents) {
-    purchaseEvents.forEach(e => {
-      purchaseAmount = purchaseAmount.add(toBN(e.returnValues._amount))
-    })
-  }
-
   // Parse bids to the table columns
   const columnData = []
   if (
@@ -285,12 +277,10 @@ export default ({ language }) => {
               ''
             }
           />
-          <InformationCardsBox
-            subtextMain={Translations[language].body.totals.totalSold}
-            subtextSecondary={Translations[language].body.totals.remaining}
-            textMain={`${Number(fromWei(purchaseAmount.toString())).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} PNK`}
-            textSecondary={`${Number(fromWei(toBN(toWei(SALE_TOTAL.toString())).sub(toBN(purchaseAmount)).toString()).toString()).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} PNK`}
-          />
+        <PurchaseAmountBox
+          saleTotal={SALE_TOTAL}
+          language={language}
+        />
         </Col>
       </Row>
       <BreakLine />
@@ -300,7 +290,6 @@ export default ({ language }) => {
         </Col>
       </Row>
       <SellOrdersGraph orders={sortedOrders && sortedOrders[0] ? sortedOrders : []} />
-
       <Row>
         <Col lg={24}>
           <Table language={language} columnData={sortedOrders && sortedOrders[0] ? sortedOrders : []} />

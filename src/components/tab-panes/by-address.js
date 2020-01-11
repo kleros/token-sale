@@ -68,7 +68,7 @@ const ByAddressPane = ({
       <QRCode
         value={contributionAddress}
         size={167}
-        bgColor={"rgba(255, 255, 255, 0.17)"}
+        bgColor={"rgba(255, 255, 255, 0.9)"}
       />
       <AddressResponsive>{contributionAddress}</AddressResponsive>
       <StyledButton onClick={CopyToClipboard}>{state.buttonText}</StyledButton>
