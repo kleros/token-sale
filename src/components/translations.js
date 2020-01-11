@@ -133,7 +133,7 @@ export default {
       },
       totals: {
         title:
-          'Um total de 150 milhões de Pinakions (PNK) serão colocados à venda ao longo do próximo mês.',
+          'Un total de 150 millones de PNK serán puestos en venta entre el 11 de enero y el 11 de febrero de 2020',
         amountForSale: 'Quantidade à venda',
         totalSold: 'Total Vendido',
         remaining: 'Quantidade restante à venda'
@@ -150,12 +150,12 @@ export default {
     header: {
       learnMore: 'Learn More About Kleros',
       title: 'Venta de Token de Kleros',
-      dates: 'Comienzo: 11 de enero de 2010. Final: 11 de febrero de 2020'
+      dates: '11 Ene 2020 a 11 Feb 2020'
     },
     body: {
       title: 'Venta de PNK de Kleros',
       contribute: 'Cómo Contribuir',
-      basicHeading: 'Básico',
+      basicHeading: 'Simple',
       basic: {
         title: (
           <>
@@ -170,7 +170,7 @@ export default {
           </>
         )
       },
-      web3Heading: 'Web3',
+      web3Heading: 'Avanzado',
       web3: {
         title: 'Hacer transacción con wallet web3',
         maxPriceLabel: '¿Cuál es el precio máximo que quieres pagar por PNK?',
