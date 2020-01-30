@@ -2,4 +2,4 @@
   from = "/"
   to = "https://kleros.io"
   status = 301
-  force = false
+  force = true
