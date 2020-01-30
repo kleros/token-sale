@@ -1,5 +1,5 @@
 [[redirects]]
-  from = "http://sale.kleros.io"
+  from = "https://sale.kleros.io"
   to = "https://kleros.io"
   status = 301
   force = true
